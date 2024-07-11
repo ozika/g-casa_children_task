@@ -2479,8 +2479,8 @@
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
-        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
-        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="end_all_time = globalClock.getTime();&amp;#10;total_time = (end_all_time - start_all_time);&amp;#10;psychoJS.experiment.addData(&quot;total_time&quot;, total_time);&amp;#10;psychoJS.experiment.addData(&quot;end_all_time&quot;, &quot;end_all_time&quot;);&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="end_all_time = globalClock.getTime()&amp;#10;&amp;#10;total_time = end_all_time - start_all_time&amp;#10;thisExp.addData('total_time',total_time)&amp;#10;thisExp.addData('end_all_time', 'end_all_time')" valType="extendedCode" updates="constant" name="End Routine"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="code_5" valType="code" updates="None" name="name"/>
       </CodeComponent>

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2024.1.5),
-    on Thu Jul 11 15:53:22 2024
+    on Thu Jul 11 16:14:39 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -4765,6 +4765,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
     thisExp.addData('earlyStop.stopped', globalClock.getTime(format='float'))
+    # Run 'End Routine' code from code_5
+    end_all_time = globalClock.getTime()
+    
+    total_time = end_all_time - start_all_time
+    thisExp.addData('total_time',total_time)
+    thisExp.addData('end_all_time', 'end_all_time')
     # check responses
     if key_resp_3.keys in ['', [], None]:  # No response was made
         key_resp_3.keys = None
