@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2023.1.3),
-    on September 17, 2024, at 10:46
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
+    on October 30, 2024, at 16:45
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -12,17 +12,14 @@ If you publish work using this script the most relevant publication is:
 """
 
 import psychopy
-psychopy.useVersion('2023.1.3')
+psychopy.useVersion('2022.2.5')
 
 
 # --- Import packages ---
 from psychopy import locale_setup
 from psychopy import prefs
-from psychopy import plugins
-plugins.activatePlugins()
 prefs.hardware['audioLib'] = 'pygame'
 from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout
-from psychopy.tools import environmenttools
 from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
                                 STOPPED, FINISHED, PRESSED, RELEASED, FOREVER)
 
@@ -42,12 +39,13 @@ from psychopy.hardware import keyboard
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2023.1.3'
+psychopyVersion = '2022.2.5'
 expName = 'HideSeek_v1'  # from the Builder filename that created this script
 expInfo = {
     'participant': '',
-    'study_id': '',
-    'session_id': '',
+    'train_first': '',
+    'direction of x': '',
+    'starting corner': '',
 }
 # --- Show participant info dialog --
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -58,7 +56,7 @@ expInfo['expName'] = expName
 expInfo['psychopyVersion'] = psychopyVersion
 
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
+filename = _thisDir + os.sep + u'data/%s_%s_%s_%s_%s' % (expInfo['participant'], expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'], expInfo['date'])
 
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
@@ -78,7 +76,6 @@ win = visual.Window(
     size=[1707, 960], fullscr=True, screen=0, 
     winType='pyglet', allowStencil=False,
     monitor='testMonitor', color=[0.5843, 0.5843, 0.5843], colorSpace='rgb',
-    backgroundImage='', backgroundFit='none',
     blendMode='avg', useFBO=True, 
     units='height')
 win.mouseVisible = True
@@ -105,14 +102,27 @@ defaultKeyboard = keyboard.Keyboard(backend='iohub')
 
 # --- Initialize components for Routine "setEnv" ---
 # Run 'Begin Experiment' code from initateExp
-
 # variables that can terminate the whole experiment if performance threshold is not reached
 # as shown here, they will not terminate the experiment
 repExp    = 1
 showearly = 0
 earlystop  = 0
+counter = 1
+import pandas as pd
+#instructions
+inputidx = 1
+fileidx = 1
+trainidx = 1
+instrFile_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+instrFile = pd.read_excel(instrFile_path)
 
-# main expderiment
+pracFile_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+pracFile   = pd.read_excel(pracFile_path)
+
+# main experiment
+condition_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTest.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+conditions = pd.read_excel(condition_path)
+
 nrepExp = 1
 
 # number of choices that can be made
@@ -170,6 +180,13 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 
 start_all_time =[]
 
+## Define which condition to test
+#train_first = 'train_x'  # 'train_x' or 'train_y'
+#step_sequence = 'x_decreasing_steps'  # 'x_decreasing_steps' or 'x_increasing_steps'
+#start_point = 'bottom_left'  # 'bottom_left', 'bottom_right', 'top_left', or 'top_right'
+
+# Construct the relative path starting from the 'conditions' folder
+schedules_path = 'conditions/schedules/' + expInfo['train_first'] + '_first/x_' + expInfo['direction of x'] + '_steps/' + expInfo['starting corner'] + '/'
 # Run 'Begin Experiment' code from redirect_web
 urlredirect=0
 
@@ -189,19 +206,19 @@ urlredirect=0
 
 #### TRAINING
 # 1: show it, 0: do not show it
-showTrain        = [0,0,0,1,0,0,1,0,0,1,0]
-#showTrain        = [0,0,0,0,0,0,0,0,0,0,0] 
+#showTrain        = [0,0,0,1,0,0,1,0,0,1,0]
+showTrain        = [0,0,0,0,0,0,0,0,0,0,0] 
 
 #### GRID EXAMPLE
 # 1: show it, 0: do not show it
-showGexam       = [1,1,1,0,1,1,0,1,1,0,0] 
-#showGexam       = [0,0,0,0,0,0,0,0,0,0,0] 
+#showGexam       = [1,1,1,0,1,1,0,1,1,0,0] 
+showGexam       = [0,0,0,0,0,0,0,0,0,0,0] 
 
 # --- Initialize components for Routine "instr_1" ---
 # Run 'Begin Experiment' code from loadSlides
 # initiate first slide
-slideStim="stimuli/instructions/Slide1.png"
-audioStim="stimuli/instructions/Audio1.wav"
+slideStim= 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide1.png' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner']) #"stimuli/instructions/Slide1.png"
+audioStim= 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner']) #"stimuli/instructions/Audio1.wav"
 
 startidx = 1
 loopidx  = 1
@@ -222,7 +239,7 @@ beforeRep = len(endidx)
 slides = visual.ImageStim(
     win=win,
     name='slides', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=(0, 0), size=(4/3,3/4),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -238,8 +255,7 @@ nextButton = visual.ButtonStim(win,
     bold=True, italic=False,
     padding=None,
     anchor='center',
-    name='nextButton',
-    depth=-2
+    name='nextButton'
 )
 nextButton.buttonClock = core.Clock()
 nextBox = visual.Rect(
@@ -266,8 +282,7 @@ prev_but = visual.ButtonStim(win,
     bold=True, italic=False,
     padding=None,
     anchor='bottom-center',
-    name='prev_but',
-    depth=-5
+    name='prev_but'
 )
 prev_but.buttonClock = core.Clock()
 prev_box = visual.Rect(
@@ -295,7 +310,6 @@ trainRep     = 1
 
 # --- Initialize components for Routine "loadparams" ---
 # Run 'Begin Experiment' code from code_6
-
 alienStim = "stimuli/alien_stimuli/11.png"
 
 # to select the right rows
@@ -338,7 +352,13 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 # _________________________________________________
 # input, ie csv file:
 #trainRep = len(trialTrain)
-instrFile = "conditions/inputInstr_1.xlsx"
+if fileidx < 4:
+    instrFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_%d.xlsx' % (
+    expInfo['train_first'],
+    expInfo['direction of x'],
+    expInfo['starting corner'],
+    fileidx
+    )
 
 # _________________________________________________
 # input, ie csv file:
@@ -390,7 +410,7 @@ choice     = 0
 alienStim = "stimuli/alien_stimuli/11.png"
 
 # alien's text box:
-Audio_intr = "stimuli/instructions/Audio_intr1.wav"
+Audio_intr = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
 #messageInstr = "This is my" '\n' "starting position" '\n' "Press spacebar to" '\n' "see where I hide." 
 
 # _________________________________________________
@@ -410,7 +430,7 @@ moveCol  = startCol
 gridImage_instr = visual.ImageStim(
     win=win,
     name='gridImage_instr', 
-    image='stimuli/instructions/grid2.png', mask=None, anchor='center',
+    image='stimuli/grid2.png', mask=None, anchor='center',
     ori=0.0, pos=gridCoord, size=gridSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -425,19 +445,20 @@ key_instr = keyboard.Keyboard()
 alienImage_3 = visual.ImageStim(
     win=win,
     name='alienImage_3', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=alienCoord, size=alienSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-4.0)
-sounds_1 = sound.Sound(Audio_intr, secs=-1, stereo=True, hamming=True,
+sounds_1 = sound.Sound('A', secs=-1, stereo=True, hamming=True,
     name='sounds_1')
 sounds_1.setVolume(1.0)
 
 # --- Initialize components for Routine "PathFB_instr" ---
 # Run 'Begin Experiment' code from pathFB_2
 # new message:
-intrAudio = "stimuli/instructions/Audio_intr2.wav"
+intrAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+
 #messageFBinstr = "This is where I hide." '\n' "Let me show" '\n' "you my route."
 #msgColFB   = blackCol
 
@@ -464,7 +485,7 @@ RTFB_instr=[]
 gridImage_9 = visual.ImageStim(
     win=win,
     name='gridImage_9', 
-    image='stimuli/instructions/grid2.png', mask=None, anchor='center',
+    image='stimuli/grid2.png', mask=None, anchor='center',
     ori=0.0, pos=gridCoord, size=gridSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -472,7 +493,7 @@ gridImage_9 = visual.ImageStim(
 alienImageFB_3 = visual.ImageStim(
     win=win,
     name='alienImageFB_3', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=alienCoord, size=alienSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -499,7 +520,7 @@ pathLine_xdir_2 = visual.Line(
 alienFace_3 = visual.ImageStim(
     win=win,
     name='alienFace_3', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=[0,0], size=faceSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -515,7 +536,6 @@ nrepcount = 0
 
 # --- Initialize components for Routine "loadparams" ---
 # Run 'Begin Experiment' code from code_6
-
 alienStim = "stimuli/alien_stimuli/11.png"
 
 # to select the right rows
@@ -558,8 +578,15 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 # _________________________________________________
 # input, ie csv file:
 
-pracFile = "conditions/inputTrain_1.xlsx"
-
+#pracFile = 'conditions/schedules/%s_first/%s/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+if fileidx < 4:
+    pracFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_%d.%d.xlsx' % (
+    expInfo['train_first'],
+    expInfo['direction of x'],
+    expInfo['starting corner'],
+    fileidx,
+    trainidx
+    )
 
 # _________________________________________________
 # choices and accuracy
@@ -602,7 +629,7 @@ getPress     = []
 
 # _________________________________________________
 # alien image:
-alienStim = "stimuli/alien_stimuli/a1.png"
+alienStim = "stimuli/alien_stimuli/11.png"
 
 # alien's text box:
 #message = "Where am" '\n' "I hiding?"
@@ -631,7 +658,7 @@ RTchoice_train = []
 gridImage_4 = visual.ImageStim(
     win=win,
     name='gridImage_4', 
-    image='stimuli/instructions/grid2.png', mask=None, anchor='center',
+    image='stimuli/grid2.png', mask=None, anchor='center',
     ori=0.0, pos=gridCoord, size=gridSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -652,7 +679,7 @@ key_resp = keyboard.Keyboard()
 alienImage = visual.ImageStim(
     win=win,
     name='alienImage', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=alienCoord, size=alienSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -669,7 +696,8 @@ text_2 = visual.TextStim(win=win, name='text_2',
 
 # --- Initialize components for Routine "PathFB_train" ---
 # Run 'Begin Experiment' code from pathFB
-pickAudio = "stimuli/instructions/Audio_corr.wav"
+pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+
 messageFB = "test"
 msgColFB  = whiteCol
 moveColFB = whiteCol
@@ -710,7 +738,7 @@ RT_FBtrain=[]
 gridImage_6 = visual.ImageStim(
     win=win,
     name='gridImage_6', 
-    image='stimuli/instructions/grid2.png', mask=None, anchor='center',
+    image='stimuli/grid2.png', mask=None, anchor='center',
     ori=0.0, pos=gridCoord, size=gridSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -718,7 +746,7 @@ gridImage_6 = visual.ImageStim(
 alienImageFB_2 = visual.ImageStim(
     win=win,
     name='alienImageFB_2', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=alienCoord, size=alienSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -751,7 +779,7 @@ pathLine_ydir = visual.Line(
 alienFace = visual.ImageStim(
     win=win,
     name='alienFace', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=[0,0], size=faceSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -776,7 +804,7 @@ nrepcount = 0
 
 # --- Initialize components for Routine "checkPerf" ---
 # Run 'Begin Experiment' code from code_4
-pracFile   = "conditions/inputTrain_1.1.xlsx"
+#pracFile   = 'conditions/schedules/%s_first/%s/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
 
 # variable to check performance threshold
 saveACC   = 0 
@@ -794,7 +822,6 @@ perfthres = 17
 
 # --- Initialize components for Routine "loadparams" ---
 # Run 'Begin Experiment' code from code_6
-
 alienStim = "stimuli/alien_stimuli/11.png"
 
 # to select the right rows
@@ -906,7 +933,7 @@ RTchoice_test = []
 gridImage_3 = visual.ImageStim(
     win=win,
     name='gridImage_3', 
-    image='stimuli/instructions/grid2.png', mask=None, anchor='center',
+    image='stimuli/grid2.png', mask=None, anchor='center',
     ori=0.0, pos=gridCoord, size=gridSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -914,7 +941,7 @@ gridImage_3 = visual.ImageStim(
 alienImage_test = visual.ImageStim(
     win=win,
     name='alienImage_test', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=alienCoord, size=alienSize,
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -934,6 +961,9 @@ movePos_test = visual.ShapeStim(
 key_resp_test = keyboard.Keyboard()
 
 # --- Initialize components for Routine "fixation" ---
+# Run 'Begin Experiment' code from code
+break_slide = 'stimuli/break.png'
+fix_time = randint(1,2)
 fixation_text = visual.TextStim(win=win, name='fixation_text',
     text='+',
     font='Open Sans',
@@ -941,6 +971,15 @@ fixation_text = visual.TextStim(win=win, name='fixation_text',
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
+image_break_2 = visual.ImageStim(
+    win=win,
+    name='image_break_2', 
+    image=break_slide, mask=None, anchor='center',
+    ori=0.0, pos=(0, 0), size=(0.5, 0.5),
+    color=[1,1,1], colorSpace='rgb', opacity=None,
+    flipHoriz=False, flipVert=False,
+    texRes=128.0, interpolate=True, depth=-2.0)
+key_resp_6 = keyboard.Keyboard()
 
 # --- Initialize components for Routine "setconfig" ---
 # Run 'Begin Experiment' code from resetStuff
@@ -950,11 +989,11 @@ nrepcount = 0
 # --- Initialize components for Routine "earlyStop" ---
 # Run 'Begin Experiment' code from code_5
 endstatus = " "
-endearly = "stimuli/instructions/Audio_earlystop.wav"
+endearly = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
 slide_stop = visual.ImageStim(
     win=win,
     name='slide_stop', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=(0, 0), size=(4/3,3/4),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -967,8 +1006,9 @@ sound_stop.setVolume(1.0)
 # --- Initialize components for Routine "instr_2" ---
 # Run 'Begin Experiment' code from code_12
 # initiate first slide
-slideStim2="stimuli/instructions/Slide32.png"
-audioStim3="stimuli/instructions/Audio32.wav"
+slideStim2='conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide32.png' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+audioStim3='conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio32.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+
 
 startidx2 = 32
 loopidx2  = 1
@@ -978,10 +1018,10 @@ instrep2  = 999
 
 
 # this need to match the slides you want to show at each turn
-endidx2   = [33] # modify where to stop 
+#endidx2   = [33] # modify where to stop 
 
 # last slide, then the loop terminates and the experiment starts
-maxSlide2 = 33
+maxSlide2 = 34 # change to 33?
 
 # it is making as many turnovers as there are numbers in endidx -> this is baically how many times it goes back and forth between isntruction slides and the grid showing different examples
 beforeRep = len(endidx)
@@ -993,7 +1033,7 @@ start_all_time = []
 slides_2 = visual.ImageStim(
     win=win,
     name='slides_2', 
-    image='default.png', mask=None, anchor='center',
+    image='sin', mask=None, anchor='center',
     ori=0.0, pos=(0, 0), size=(4/3,3/4),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
@@ -1009,8 +1049,7 @@ nextButton_2 = visual.ButtonStim(win,
     bold=True, italic=False,
     padding=None,
     anchor='center',
-    name='nextButton_2',
-    depth=-2
+    name='nextButton_2'
 )
 nextButton_2.buttonClock = core.Clock()
 nextBox_2 = visual.Rect(
@@ -1037,8 +1076,7 @@ prev_but_2 = visual.ButtonStim(win,
     bold=True, italic=False,
     padding=None,
     anchor='bottom-center',
-    name='prev_but_2',
-    depth=-5
+    name='prev_but_2'
 )
 prev_but_2.buttonClock = core.Clock()
 prev_box_2 = visual.Rect(
@@ -1063,18 +1101,15 @@ sounds_3.setVolume(1.0)
 total_time=[]
 end_all_time = []
 start_all_time = []
-endlate = "stimuli/instructions/Audio_earlystop.wav"
+#endlate = "stimuli/instructions/Audio_earlystop.wav"
 bye = visual.ImageStim(
     win=win,
     name='bye', 
-    image='stimuli/instructions/Slide33.png', mask=None, anchor='center',
+    image='stimuli/Slide33.png', mask=None, anchor='center',
     ori=0.0, pos=(0, 0), size=(4/3, 3/4),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
     texRes=128.0, interpolate=True, depth=-1.0)
-sound_1 = sound.Sound('A', secs=1.0, stereo=True, hamming=True,
-    name='sound_1')
-sound_1.setVolume(1.0)
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -1082,6 +1117,7 @@ routineTimer = core.Clock()  # to track time remaining of each (possibly non-sli
 
 # --- Prepare to start Routine "setEnv" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 # Run 'Begin Routine' code from initateExp
 start_all_time = globalClock.getTime()
@@ -1109,7 +1145,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "setEnv" ---
-routineForceEnded = not continueRoutine
 while continueRoutine:
     # get current time
     t = routineTimer.getTime()
@@ -1125,8 +1160,6 @@ while continueRoutine:
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1151,6 +1184,7 @@ routineTimer.reset()
 
 # --- Prepare to start Routine "skipRoutine" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 # keep track of which components have finished
 skipRoutineComponents = []
@@ -1167,7 +1201,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "skipRoutine" ---
-routineForceEnded = not continueRoutine
 while continueRoutine:
     # get current time
     t = routineTimer.getTime()
@@ -1179,8 +1212,6 @@ while continueRoutine:
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1243,22 +1274,29 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         # --- Prepare to start Routine "instr_1" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from loadSlides
         #audioStim.stop(reset=True) #False
         # load slides according to index
-        slideStim = "stimuli/instructions/Slide"+str(startidx)+".png"
+        slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide%d.png' % (
+            expInfo['train_first'],
+            expInfo['direction of x'],
+            expInfo['starting corner'],
+            startidx
+        ) #"stimuli/instructions/Slide"+str(startidx)+".png"
         thisExp.addData('slideStim', slideStim)
         
-        audioStim = "stimuli/instructions/Audio"+str(startidx)+".wav"
+        audioStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio%d.wav' % (
+            expInfo['train_first'],
+            expInfo['direction of x'],
+            expInfo['starting corner'],
+            startidx
+        ) #"stimuli/instructions/Audio"+str(startidx)+".wav"
         thisExp.addData('audioStim', audioStim)
         
         # note, startidx is increased in 'nextButton' component; once button pressed, idx goes up by 1
         slides.setImage(slideStim)
-        # reset nextButton to account for continued clicks & clear times on/off
-        nextButton.reset()
-        # reset prev_but to account for continued clicks & clear times on/off
-        prev_but.reset()
         sounds.setSound(audioStim, hamming=True)
         sounds.setVolume(1.0, log=False)
         # keep track of which components have finished
@@ -1276,7 +1314,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "instr_1" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -1286,8 +1323,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # update/draw components on each frame
             
             # *slides* updates
-            
-            # if slides is starting this frame...
             if slides.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 slides.frameNStart = frameN  # exact frame index
@@ -1296,158 +1331,96 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(slides, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'slides.started')
-                # update status
-                slides.status = STARTED
                 slides.setAutoDraw(True)
             
-            # if slides is active this frame...
-            if slides.status == STARTED:
-                # update params
-                pass
             # *nextButton* updates
-            
-            # if nextButton is starting this frame...
             if nextButton.status == NOT_STARTED and tThisFlip >= 0-frameTolerance:
                 # keep track of start time/frame for later
                 nextButton.frameNStart = frameN  # exact frame index
                 nextButton.tStart = t  # local t and not account for scr refresh
                 nextButton.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(nextButton, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                nextButton.status = STARTED
                 nextButton.setAutoDraw(True)
-            
-            # if nextButton is active this frame...
             if nextButton.status == STARTED:
-                # update params
-                pass
                 # check whether nextButton has been pressed
                 if nextButton.isClicked:
                     if not nextButton.wasClicked:
-                        # if this is a new click, store time of first click and clicked until
-                        nextButton.timesOn.append(nextButton.buttonClock.getTime())
-                        nextButton.timesOff.append(nextButton.buttonClock.getTime())
-                    elif len(nextButton.timesOff):
-                        # if click is continuing from last frame, update time of clicked until
-                        nextButton.timesOff[-1] = nextButton.buttonClock.getTime()
+                        nextButton.timesOn.append(nextButton.buttonClock.getTime()) # store time of first click
+                        nextButton.timesOff.append(nextButton.buttonClock.getTime()) # store time clicked until
+                    else:
+                        nextButton.timesOff[-1] = nextButton.buttonClock.getTime() # update time clicked until
                     if not nextButton.wasClicked:
-                        # end routine when nextButton is clicked
-                        continueRoutine = False
-                    if not nextButton.wasClicked:
-                        # run callback code when nextButton is clicked
+                        continueRoutine = False  # end routine when nextButton is clicked
                         startidx += 1
                         button_name = "next"
-            # take note of whether nextButton was clicked, so that next frame we know if clicks are new
-            nextButton.wasClicked = nextButton.isClicked and nextButton.status == STARTED
+                    nextButton.wasClicked = True  # if nextButton is still clicked next frame, it is not a new click
+                else:
+                    nextButton.wasClicked = False  # if nextButton is clicked next frame, it is a new click
+            else:
+                nextButton.wasClicked = False  # if nextButton is clicked next frame, it is a new click
             
             # *nextBox* updates
-            
-            # if nextBox is starting this frame...
             if nextBox.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 nextBox.frameNStart = frameN  # exact frame index
                 nextBox.tStart = t  # local t and not account for scr refresh
                 nextBox.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(nextBox, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                nextBox.status = STARTED
                 nextBox.setAutoDraw(True)
             
-            # if nextBox is active this frame...
-            if nextBox.status == STARTED:
-                # update params
-                pass
-            
             # *nextText* updates
-            
-            # if nextText is starting this frame...
             if nextText.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 nextText.frameNStart = frameN  # exact frame index
                 nextText.tStart = t  # local t and not account for scr refresh
                 nextText.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(nextText, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                nextText.status = STARTED
                 nextText.setAutoDraw(True)
             
-            # if nextText is active this frame...
-            if nextText.status == STARTED:
-                # update params
-                pass
             # *prev_but* updates
-            
-            # if prev_but is starting this frame...
             if prev_but.status == NOT_STARTED and tThisFlip >= 0-frameTolerance:
                 # keep track of start time/frame for later
                 prev_but.frameNStart = frameN  # exact frame index
                 prev_but.tStart = t  # local t and not account for scr refresh
                 prev_but.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(prev_but, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                prev_but.status = STARTED
                 prev_but.setAutoDraw(True)
-            
-            # if prev_but is active this frame...
             if prev_but.status == STARTED:
-                # update params
-                pass
                 # check whether prev_but has been pressed
                 if prev_but.isClicked:
                     if not prev_but.wasClicked:
-                        # if this is a new click, store time of first click and clicked until
-                        prev_but.timesOn.append(prev_but.buttonClock.getTime())
-                        prev_but.timesOff.append(prev_but.buttonClock.getTime())
-                    elif len(prev_but.timesOff):
-                        # if click is continuing from last frame, update time of clicked until
-                        prev_but.timesOff[-1] = prev_but.buttonClock.getTime()
+                        prev_but.timesOn.append(prev_but.buttonClock.getTime()) # store time of first click
+                        prev_but.timesOff.append(prev_but.buttonClock.getTime()) # store time clicked until
+                    else:
+                        prev_but.timesOff[-1] = prev_but.buttonClock.getTime() # update time clicked until
                     if not prev_but.wasClicked:
-                        # end routine when prev_but is clicked
-                        continueRoutine = False
-                    if not prev_but.wasClicked:
-                        # run callback code when prev_but is clicked
+                        continueRoutine = False  # end routine when prev_but is clicked
                         startidx -= 1
                         button_name = "previous"
-            # take note of whether prev_but was clicked, so that next frame we know if clicks are new
-            prev_but.wasClicked = prev_but.isClicked and prev_but.status == STARTED
+                    prev_but.wasClicked = True  # if prev_but is still clicked next frame, it is not a new click
+                else:
+                    prev_but.wasClicked = False  # if prev_but is clicked next frame, it is a new click
+            else:
+                prev_but.wasClicked = False  # if prev_but is clicked next frame, it is a new click
             
             # *prev_box* updates
-            
-            # if prev_box is starting this frame...
             if prev_box.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 prev_box.frameNStart = frameN  # exact frame index
                 prev_box.tStart = t  # local t and not account for scr refresh
                 prev_box.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(prev_box, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                prev_box.status = STARTED
                 prev_box.setAutoDraw(True)
             
-            # if prev_box is active this frame...
-            if prev_box.status == STARTED:
-                # update params
-                pass
-            
             # *prev_text* updates
-            
-            # if prev_text is starting this frame...
             if prev_text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 prev_text.frameNStart = frameN  # exact frame index
                 prev_text.tStart = t  # local t and not account for scr refresh
                 prev_text.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(prev_text, 'tStartRefresh')  # time at next scr refresh
-                # update status
-                prev_text.status = STARTED
                 prev_text.setAutoDraw(True)
-            
-            # if prev_text is active this frame...
-            if prev_text.status == STARTED:
-                # update params
-                pass
-            
-            # if sounds is starting this frame...
+            # start/stop sounds
             if sounds.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 sounds.frameNStart = frameN  # exact frame index
@@ -1455,20 +1428,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                 sounds.tStartRefresh = tThisFlipGlobal  # on global time
                 # add timestamp to datafile
                 thisExp.addData('sounds.started', tThisFlipGlobal)
-                # update status
-                sounds.status = STARTED
                 sounds.play(when=win)  # sync with win flip
-            # update sounds status according to whether it's playing
-            if sounds.isPlaying:
-                sounds.status = STARTED
-            elif sounds.isFinished:
-                sounds.status = FINISHED
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1521,6 +1485,7 @@ for thisBeforeExpLoop in beforeExpLoop:
     
     # --- Prepare to start Routine "getSkip" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code_3
     # checks which routines/components should be skipped
@@ -1552,7 +1517,6 @@ for thisBeforeExpLoop in beforeExpLoop:
     frameN = -1
     
     # --- Run Routine "getSkip" ---
-    routineForceEnded = not continueRoutine
     while continueRoutine:
         # get current time
         t = routineTimer.getTime()
@@ -1564,8 +1528,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1609,11 +1571,11 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         # --- Prepare to start Routine "loadparams" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from code_6
         # load some params such that they can be shown in first trial
         # psychopy has some problems loading otherwise 
-        
         
         alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
         thisExp.addData('alienStim', alienStim) 
@@ -1646,7 +1608,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "loadparams" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -1658,8 +1619,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1684,6 +1643,7 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         # --- Prepare to start Routine "instrGrid" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from gridCode_instr
         # _________________________________________________
@@ -1693,7 +1653,8 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         
         alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
-        Audio_intr = "stimuli/instructions/Audio_intr1.wav"
+        Audio_intr = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+        
         
         thisExp.addData('instrFile', instrFile) 
         thisExp.addData('alienStim_instr', alienStim) 
@@ -1720,7 +1681,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "instrGrid" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -1730,8 +1690,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # update/draw components on each frame
             
             # *gridImage_instr* updates
-            
-            # if gridImage_instr is starting this frame...
             if gridImage_instr.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 gridImage_instr.frameNStart = frameN  # exact frame index
@@ -1740,18 +1698,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(gridImage_instr, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'gridImage_instr.started')
-                # update status
-                gridImage_instr.status = STARTED
                 gridImage_instr.setAutoDraw(True)
             
-            # if gridImage_instr is active this frame...
-            if gridImage_instr.status == STARTED:
-                # update params
-                pass
-            
             # *startPos_3* updates
-            
-            # if startPos_3 is starting this frame...
             if startPos_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 startPos_3.frameNStart = frameN  # exact frame index
@@ -1760,19 +1709,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(startPos_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'startPos_3.started')
-                # update status
-                startPos_3.status = STARTED
                 startPos_3.setAutoDraw(True)
-            
-            # if startPos_3 is active this frame...
-            if startPos_3.status == STARTED:
-                # update params
-                pass
             
             # *key_instr* updates
             waitOnFlip = False
-            
-            # if key_instr is starting this frame...
             if key_instr.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 key_instr.frameNStart = frameN  # exact frame index
@@ -1781,7 +1721,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(key_instr, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'key_instr.started')
-                # update status
                 key_instr.status = STARTED
                 # keyboard checking is just starting
                 waitOnFlip = True
@@ -1793,13 +1732,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                 if len(_key_instr_allKeys):
                     key_instr.keys = _key_instr_allKeys[-1].name  # just the last key pressed
                     key_instr.rt = _key_instr_allKeys[-1].rt
-                    key_instr.duration = _key_instr_allKeys[-1].duration
                     # a response ends the routine
                     continueRoutine = False
             
             # *alienImage_3* updates
-            
-            # if alienImage_3 is starting this frame...
             if alienImage_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 alienImage_3.frameNStart = frameN  # exact frame index
@@ -1808,16 +1744,8 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(alienImage_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'alienImage_3.started')
-                # update status
-                alienImage_3.status = STARTED
                 alienImage_3.setAutoDraw(True)
-            
-            # if alienImage_3 is active this frame...
-            if alienImage_3.status == STARTED:
-                # update params
-                pass
-            
-            # if sounds_1 is starting this frame...
+            # start/stop sounds_1
             if sounds_1.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 sounds_1.frameNStart = frameN  # exact frame index
@@ -1825,20 +1753,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                 sounds_1.tStartRefresh = tThisFlipGlobal  # on global time
                 # add timestamp to datafile
                 thisExp.addData('sounds_1.started', tThisFlipGlobal)
-                # update status
-                sounds_1.status = STARTED
                 sounds_1.play(when=win)  # sync with win flip
-            # update sounds_1 status according to whether it's playing
-            if sounds_1.isPlaying:
-                sounds_1.status = STARTED
-            elif sounds_1.isFinished:
-                sounds_1.status = FINISHED
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -1864,13 +1783,13 @@ for thisBeforeExpLoop in beforeExpLoop:
         instrLoop.addData('key_instr.keys',key_instr.keys)
         if key_instr.keys != None:  # we had a response
             instrLoop.addData('key_instr.rt', key_instr.rt)
-            instrLoop.addData('key_instr.duration', key_instr.duration)
         sounds_1.stop()  # ensure sound has stopped at end of routine
         # the Routine "instrGrid" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         
         # --- Prepare to start Routine "PathFB_instr" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from pathFB_2
         # timings
@@ -1881,7 +1800,8 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         #messageFBinstr = "This is where I hide." '\n' "Let me show" '\n' "you my route."
         #msgColFB   = blackCol
-        intrAudio = "stimuli/instructions/Audio_intr2.wav"
+        intrAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+        
         
         alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
         
@@ -1955,7 +1875,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "PathFB_instr" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -1965,8 +1884,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # update/draw components on each frame
             
             # *gridImage_9* updates
-            
-            # if gridImage_9 is starting this frame...
             if gridImage_9.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 gridImage_9.frameNStart = frameN  # exact frame index
@@ -1975,18 +1892,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(gridImage_9, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'gridImage_9.started')
-                # update status
-                gridImage_9.status = STARTED
                 gridImage_9.setAutoDraw(True)
             
-            # if gridImage_9 is active this frame...
-            if gridImage_9.status == STARTED:
-                # update params
-                pass
-            
             # *alienImageFB_3* updates
-            
-            # if alienImageFB_3 is starting this frame...
             if alienImageFB_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 alienImageFB_3.frameNStart = frameN  # exact frame index
@@ -1995,18 +1903,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(alienImageFB_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'alienImageFB_3.started')
-                # update status
-                alienImageFB_3.status = STARTED
                 alienImageFB_3.setAutoDraw(True)
             
-            # if alienImageFB_3 is active this frame...
-            if alienImageFB_3.status == STARTED:
-                # update params
-                pass
-            
             # *startPosFB_3* updates
-            
-            # if startPosFB_3 is starting this frame...
             if startPosFB_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 startPosFB_3.frameNStart = frameN  # exact frame index
@@ -2015,19 +1914,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(startPosFB_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'startPosFB_3.started')
-                # update status
-                startPosFB_3.status = STARTED
                 startPosFB_3.setAutoDraw(True)
-            
-            # if startPosFB_3 is active this frame...
-            if startPosFB_3.status == STARTED:
-                # update params
-                pass
             
             # *keyFB_3* updates
             waitOnFlip = False
-            
-            # if keyFB_3 is starting this frame...
             if keyFB_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 keyFB_3.frameNStart = frameN  # exact frame index
@@ -2036,7 +1926,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(keyFB_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'keyFB_3.started')
-                # update status
                 keyFB_3.status = STARTED
                 # keyboard checking is just starting
                 waitOnFlip = True
@@ -2048,13 +1937,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                 if len(_keyFB_3_allKeys):
                     keyFB_3.keys = _keyFB_3_allKeys[-1].name  # just the last key pressed
                     keyFB_3.rt = _keyFB_3_allKeys[-1].rt
-                    keyFB_3.duration = _keyFB_3_allKeys[-1].duration
                     # a response ends the routine
                     continueRoutine = False
             
             # *pathLine_ydir_2* updates
-            
-            # if pathLine_ydir_2 is starting this frame...
             if pathLine_ydir_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 pathLine_ydir_2.frameNStart = frameN  # exact frame index
@@ -2063,13 +1949,8 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(pathLine_ydir_2, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'pathLine_ydir_2.started')
-                # update status
-                pathLine_ydir_2.status = STARTED
                 pathLine_ydir_2.setAutoDraw(True)
-            
-            # if pathLine_ydir_2 is active this frame...
-            if pathLine_ydir_2.status == STARTED:
-                # update params
+            if pathLine_ydir_2.status == STARTED:  # only update if drawing
                 pathLine_ydir_2.setFillColor([1.0000, 0.6863, -1.0000], log=False)
                 pathLine_ydir_2.setPos((x_pathdirY,y_pathdirY), log=False)
                 pathLine_ydir_2.setSize(y_pathSize, log=False)
@@ -2077,8 +1958,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 pathLine_ydir_2.setLineWidth(8.0, log=False)
             
             # *pathLine_xdir_2* updates
-            
-            # if pathLine_xdir_2 is starting this frame...
             if pathLine_xdir_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 pathLine_xdir_2.frameNStart = frameN  # exact frame index
@@ -2087,13 +1966,8 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(pathLine_xdir_2, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'pathLine_xdir_2.started')
-                # update status
-                pathLine_xdir_2.status = STARTED
                 pathLine_xdir_2.setAutoDraw(True)
-            
-            # if pathLine_xdir_2 is active this frame...
-            if pathLine_xdir_2.status == STARTED:
-                # update params
+            if pathLine_xdir_2.status == STARTED:  # only update if drawing
                 pathLine_xdir_2.setFillColor([1.0000, 0.6863, -1.0000], log=False)
                 pathLine_xdir_2.setPos((x_pathdirX,y_pathdirX), log=False)
                 pathLine_xdir_2.setSize(x_pathSize, log=False)
@@ -2101,8 +1975,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 pathLine_xdir_2.setLineWidth(8.0, log=False)
             
             # *alienFace_3* updates
-            
-            # if alienFace_3 is starting this frame...
             if alienFace_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 alienFace_3.frameNStart = frameN  # exact frame index
@@ -2111,16 +1983,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                 win.timeOnFlip(alienFace_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'alienFace_3.started')
-                # update status
-                alienFace_3.status = STARTED
                 alienFace_3.setAutoDraw(True)
-            
-            # if alienFace_3 is active this frame...
-            if alienFace_3.status == STARTED:
-                # update params
+            if alienFace_3.status == STARTED:  # only update if drawing
                 alienFace_3.setPos((x_corrPos,y_corrPos), log=False)
-            
-            # if sounds_2 is starting this frame...
+            # start/stop sounds_2
             if sounds_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 sounds_2.frameNStart = frameN  # exact frame index
@@ -2128,20 +1994,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                 sounds_2.tStartRefresh = tThisFlipGlobal  # on global time
                 # add timestamp to datafile
                 thisExp.addData('sounds_2.started', tThisFlipGlobal)
-                # update status
-                sounds_2.status = STARTED
                 sounds_2.play(when=win)  # sync with win flip
-            # update sounds_2 status according to whether it's playing
-            if sounds_2.isPlaying:
-                sounds_2.status = STARTED
-            elif sounds_2.isFinished:
-                sounds_2.status = FINISHED
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -2191,13 +2048,13 @@ for thisBeforeExpLoop in beforeExpLoop:
         instrLoop.addData('keyFB_3.keys',keyFB_3.keys)
         if keyFB_3.keys != None:  # we had a response
             instrLoop.addData('keyFB_3.rt', keyFB_3.rt)
-            instrLoop.addData('keyFB_3.duration', keyFB_3.duration)
         sounds_2.stop()  # ensure sound has stopped at end of routine
         # the Routine "PathFB_instr" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         
         # --- Prepare to start Routine "setconfig" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from resetStuff
         # _________________________________________________
@@ -2243,7 +2100,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "setconfig" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -2258,8 +2114,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -2279,6 +2133,8 @@ for thisBeforeExpLoop in beforeExpLoop:
         for thisComponent in setconfigComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        # Run 'End Routine' code from resetStuff
+        counter +=1
         # the Routine "setconfig" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         thisExp.nextEntry()
@@ -2326,11 +2182,11 @@ for thisBeforeExpLoop in beforeExpLoop:
             
             # --- Prepare to start Routine "loadparams" ---
             continueRoutine = True
+            routineForceEnded = False
             # update component parameters for each repeat
             # Run 'Begin Routine' code from code_6
             # load some params such that they can be shown in first trial
             # psychopy has some problems loading otherwise 
-            
             
             alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
             thisExp.addData('alienStim', alienStim) 
@@ -2363,7 +2219,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             frameN = -1
             
             # --- Run Routine "loadparams" ---
-            routineForceEnded = not continueRoutine
             while continueRoutine:
                 # get current time
                 t = routineTimer.getTime()
@@ -2375,8 +2230,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 # check for quit (typically the Esc key)
                 if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                     core.quit()
-                    if eyetracker:
-                        eyetracker.setConnectionState(False)
                 
                 # check if all components have finished
                 if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -2420,6 +2273,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                 
                 # --- Prepare to start Routine "trainGrid" ---
                 continueRoutine = True
+                routineForceEnded = False
                 # update component parameters for each repeat
                 # Run 'Begin Routine' code from gridCode
                 start = globalClock.getTime()
@@ -2453,7 +2307,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 frameN = -1
                 
                 # --- Run Routine "trainGrid" ---
-                routineForceEnded = not continueRoutine
                 while continueRoutine:
                     # get current time
                     t = routineTimer.getTime()
@@ -2504,8 +2357,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                         thisExp.addData('RTchoice_train',RTchoice_train)
                     
                     # *gridImage_4* updates
-                    
-                    # if gridImage_4 is starting this frame...
                     if gridImage_4.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                         # keep track of start time/frame for later
                         gridImage_4.frameNStart = frameN  # exact frame index
@@ -2514,18 +2365,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                         win.timeOnFlip(gridImage_4, 'tStartRefresh')  # time at next scr refresh
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'gridImage_4.started')
-                        # update status
-                        gridImage_4.status = STARTED
                         gridImage_4.setAutoDraw(True)
                     
-                    # if gridImage_4 is active this frame...
-                    if gridImage_4.status == STARTED:
-                        # update params
-                        pass
-                    
                     # *startPos* updates
-                    
-                    # if startPos is starting this frame...
                     if startPos.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                         # keep track of start time/frame for later
                         startPos.frameNStart = frameN  # exact frame index
@@ -2534,18 +2376,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                         win.timeOnFlip(startPos, 'tStartRefresh')  # time at next scr refresh
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'startPos.started')
-                        # update status
-                        startPos.status = STARTED
                         startPos.setAutoDraw(True)
                     
-                    # if startPos is active this frame...
-                    if startPos.status == STARTED:
-                        # update params
-                        pass
-                    
                     # *movePos* updates
-                    
-                    # if movePos is starting this frame...
                     if movePos.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                         # keep track of start time/frame for later
                         movePos.frameNStart = frameN  # exact frame index
@@ -2554,21 +2387,14 @@ for thisBeforeExpLoop in beforeExpLoop:
                         win.timeOnFlip(movePos, 'tStartRefresh')  # time at next scr refresh
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'movePos.started')
-                        # update status
-                        movePos.status = STARTED
                         movePos.setAutoDraw(True)
-                    
-                    # if movePos is active this frame...
-                    if movePos.status == STARTED:
-                        # update params
+                    if movePos.status == STARTED:  # only update if drawing
                         movePos.setFillColor(moveCol, log=False)
                         movePos.setPos((x_movePos,y_movePos), log=False)
                         movePos.setLineColor(moveCol, log=False)
                     
                     # *key_resp* updates
                     waitOnFlip = False
-                    
-                    # if key_resp is starting this frame...
                     if key_resp.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                         # keep track of start time/frame for later
                         key_resp.frameNStart = frameN  # exact frame index
@@ -2577,7 +2403,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                         win.timeOnFlip(key_resp, 'tStartRefresh')  # time at next scr refresh
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'key_resp.started')
-                        # update status
                         key_resp.status = STARTED
                         # keyboard checking is just starting
                         waitOnFlip = True
@@ -2589,11 +2414,8 @@ for thisBeforeExpLoop in beforeExpLoop:
                         if len(_key_resp_allKeys):
                             key_resp.keys = _key_resp_allKeys[-1].name  # just the last key pressed
                             key_resp.rt = _key_resp_allKeys[-1].rt
-                            key_resp.duration = _key_resp_allKeys[-1].duration
                     
                     # *alienImage* updates
-                    
-                    # if alienImage is starting this frame...
                     if alienImage.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                         # keep track of start time/frame for later
                         alienImage.frameNStart = frameN  # exact frame index
@@ -2602,20 +2424,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                         win.timeOnFlip(alienImage, 'tStartRefresh')  # time at next scr refresh
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'alienImage.started')
-                        # update status
-                        alienImage.status = STARTED
                         alienImage.setAutoDraw(True)
-                    
-                    # if alienImage is active this frame...
-                    if alienImage.status == STARTED:
-                        # update params
-                        pass
                     
                     # check for quit (typically the Esc key)
                     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                         core.quit()
-                        if eyetracker:
-                            eyetracker.setConnectionState(False)
                     
                     # check if all components have finished
                     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -2693,7 +2506,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 moveLoop_train.addData('key_resp.keys',key_resp.keys)
                 if key_resp.keys != None:  # we had a response
                     moveLoop_train.addData('key_resp.rt', key_resp.rt)
-                    moveLoop_train.addData('key_resp.duration', key_resp.duration)
                 # the Routine "trainGrid" was not non-slip safe, so reset the non-slip timer
                 routineTimer.reset()
                 thisExp.nextEntry()
@@ -2703,6 +2515,7 @@ for thisBeforeExpLoop in beforeExpLoop:
             
             # --- Prepare to start Routine "quickfixation" ---
             continueRoutine = True
+            routineForceEnded = False
             # update component parameters for each repeat
             # keep track of which components have finished
             quickfixationComponents = [text_2]
@@ -2719,7 +2532,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             frameN = -1
             
             # --- Run Routine "quickfixation" ---
-            routineForceEnded = not continueRoutine
             while continueRoutine and routineTimer.getTime() < 1.5:
                 # get current time
                 t = routineTimer.getTime()
@@ -2729,8 +2541,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 # update/draw components on each frame
                 
                 # *text_2* updates
-                
-                # if text_2 is starting this frame...
                 if text_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     text_2.frameNStart = frameN  # exact frame index
@@ -2739,16 +2549,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(text_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'text_2.started')
-                    # update status
-                    text_2.status = STARTED
                     text_2.setAutoDraw(True)
-                
-                # if text_2 is active this frame...
-                if text_2.status == STARTED:
-                    # update params
-                    pass
-                
-                # if text_2 is stopping this frame...
                 if text_2.status == STARTED:
                     # is it time to stop? (based on global clock, using actual start)
                     if tThisFlipGlobal > text_2.tStartRefresh + 1.5-frameTolerance:
@@ -2757,15 +2558,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                         text_2.frameNStop = frameN  # exact frame index
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'text_2.stopped')
-                        # update status
-                        text_2.status = FINISHED
                         text_2.setAutoDraw(False)
                 
                 # check for quit (typically the Esc key)
                 if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                     core.quit()
-                    if eyetracker:
-                        eyetracker.setConnectionState(False)
                 
                 # check if all components have finished
                 if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -2793,6 +2590,7 @@ for thisBeforeExpLoop in beforeExpLoop:
             
             # --- Prepare to start Routine "PathFB_train" ---
             continueRoutine = True
+            routineForceEnded = False
             # update component parameters for each repeat
             # Run 'Begin Routine' code from pathFB
             # new message:
@@ -2816,7 +2614,7 @@ for thisBeforeExpLoop in beforeExpLoop:
             # ---------------------------------
             if corrAns==1:
                 #messageFB = "CORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = "stimuli/instructions/Audio_corr.wav"
+                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
                 msgColFB  = greenCol
                 moveColFB = greenCol
                 corrColFB = greenCol
@@ -2827,7 +2625,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                 
             elif corrAns ==0 and aCorr==0:
                 #messageFB = "INCORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = "stimuli/instructions/Audio_fals.wav"
+                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_fals.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
                 msgColFB  = redCol
                 moveColFB = redCol
              
@@ -2840,7 +2638,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                 
             elif corrAns ==0 and aCorr==1:
                 #messageFB = "INCORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = "stimuli/instructions/Audio_acorr.wav"
+                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_acorr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
                 msgColFB  = yellCol
                 moveColFB = yellCol
              
@@ -2925,7 +2723,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             frameN = -1
             
             # --- Run Routine "PathFB_train" ---
-            routineForceEnded = not continueRoutine
             while continueRoutine:
                 # get current time
                 t = routineTimer.getTime()
@@ -2935,8 +2732,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 # update/draw components on each frame
                 
                 # *gridImage_6* updates
-                
-                # if gridImage_6 is starting this frame...
                 if gridImage_6.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     gridImage_6.frameNStart = frameN  # exact frame index
@@ -2945,18 +2740,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(gridImage_6, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'gridImage_6.started')
-                    # update status
-                    gridImage_6.status = STARTED
                     gridImage_6.setAutoDraw(True)
                 
-                # if gridImage_6 is active this frame...
-                if gridImage_6.status == STARTED:
-                    # update params
-                    pass
-                
                 # *alienImageFB_2* updates
-                
-                # if alienImageFB_2 is starting this frame...
                 if alienImageFB_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     alienImageFB_2.frameNStart = frameN  # exact frame index
@@ -2965,18 +2751,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(alienImageFB_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'alienImageFB_2.started')
-                    # update status
-                    alienImageFB_2.status = STARTED
                     alienImageFB_2.setAutoDraw(True)
                 
-                # if alienImageFB_2 is active this frame...
-                if alienImageFB_2.status == STARTED:
-                    # update params
-                    pass
-                
                 # *startPosFB_2* updates
-                
-                # if startPosFB_2 is starting this frame...
                 if startPosFB_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     startPosFB_2.frameNStart = frameN  # exact frame index
@@ -2985,18 +2762,9 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(startPosFB_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'startPosFB_2.started')
-                    # update status
-                    startPosFB_2.status = STARTED
                     startPosFB_2.setAutoDraw(True)
                 
-                # if startPosFB_2 is active this frame...
-                if startPosFB_2.status == STARTED:
-                    # update params
-                    pass
-                
                 # *movePosFB_2* updates
-                
-                # if movePosFB_2 is starting this frame...
                 if movePosFB_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     movePosFB_2.frameNStart = frameN  # exact frame index
@@ -3005,21 +2773,14 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(movePosFB_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'movePosFB_2.started')
-                    # update status
-                    movePosFB_2.status = STARTED
                     movePosFB_2.setAutoDraw(True)
-                
-                # if movePosFB_2 is active this frame...
-                if movePosFB_2.status == STARTED:
-                    # update params
+                if movePosFB_2.status == STARTED:  # only update if drawing
                     movePosFB_2.setFillColor(moveColFB, log=False)
                     movePosFB_2.setPos((x_movePos,y_movePos), log=False)
                     movePosFB_2.setLineColor(moveColFB, log=False)
                 
                 # *keyFB_2* updates
                 waitOnFlip = False
-                
-                # if keyFB_2 is starting this frame...
                 if keyFB_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     keyFB_2.frameNStart = frameN  # exact frame index
@@ -3028,7 +2789,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(keyFB_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'keyFB_2.started')
-                    # update status
                     keyFB_2.status = STARTED
                     # keyboard checking is just starting
                     waitOnFlip = True
@@ -3040,13 +2800,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                     if len(_keyFB_2_allKeys):
                         keyFB_2.keys = _keyFB_2_allKeys[-1].name  # just the last key pressed
                         keyFB_2.rt = _keyFB_2_allKeys[-1].rt
-                        keyFB_2.duration = _keyFB_2_allKeys[-1].duration
                         # a response ends the routine
                         continueRoutine = False
                 
                 # *pathLine_xdir* updates
-                
-                # if pathLine_xdir is starting this frame...
                 if pathLine_xdir.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     pathLine_xdir.frameNStart = frameN  # exact frame index
@@ -3055,21 +2812,14 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(pathLine_xdir, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'pathLine_xdir.started')
-                    # update status
-                    pathLine_xdir.status = STARTED
                     pathLine_xdir.setAutoDraw(True)
-                
-                # if pathLine_xdir is active this frame...
-                if pathLine_xdir.status == STARTED:
-                    # update params
+                if pathLine_xdir.status == STARTED:  # only update if drawing
                     pathLine_xdir.setFillColor([1.0000, 0.6863, -1.0000], log=False)
                     pathLine_xdir.setPos((x_pathdirX,y_pathdirX), log=False)
                     pathLine_xdir.setLineColor([1.0000, 0.6863, -1.0000], log=False)
                     pathLine_xdir.setLineWidth(pathLW, log=False)
                 
                 # *pathLine_ydir* updates
-                
-                # if pathLine_ydir is starting this frame...
                 if pathLine_ydir.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     pathLine_ydir.frameNStart = frameN  # exact frame index
@@ -3078,13 +2828,8 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(pathLine_ydir, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'pathLine_ydir.started')
-                    # update status
-                    pathLine_ydir.status = STARTED
                     pathLine_ydir.setAutoDraw(True)
-                
-                # if pathLine_ydir is active this frame...
-                if pathLine_ydir.status == STARTED:
-                    # update params
+                if pathLine_ydir.status == STARTED:  # only update if drawing
                     pathLine_ydir.setFillColor([1.0000, 0.6863, -1.0000], log=False)
                     pathLine_ydir.setPos((x_pathdirY,y_pathdirY), log=False)
                     pathLine_ydir.setSize(y_pathSize, log=False)
@@ -3092,8 +2837,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                     pathLine_ydir.setLineWidth(pathLW, log=False)
                 
                 # *alienFace* updates
-                
-                # if alienFace is starting this frame...
                 if alienFace.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     alienFace.frameNStart = frameN  # exact frame index
@@ -3102,16 +2845,10 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(alienFace, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'alienFace.started')
-                    # update status
-                    alienFace.status = STARTED
                     alienFace.setAutoDraw(True)
-                
-                # if alienFace is active this frame...
-                if alienFace.status == STARTED:
-                    # update params
+                if alienFace.status == STARTED:  # only update if drawing
                     alienFace.setPos((x_corrPos,y_corrPos), log=False)
-                
-                # if sounds_4 is starting this frame...
+                # start/stop sounds_4
                 if sounds_4.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     sounds_4.frameNStart = frameN  # exact frame index
@@ -3119,20 +2856,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                     sounds_4.tStartRefresh = tThisFlipGlobal  # on global time
                     # add timestamp to datafile
                     thisExp.addData('sounds_4.started', tThisFlipGlobal)
-                    # update status
-                    sounds_4.status = STARTED
                     sounds_4.play(when=win)  # sync with win flip
-                # update sounds_4 status according to whether it's playing
-                if sounds_4.isPlaying:
-                    sounds_4.status = STARTED
-                elif sounds_4.isFinished:
-                    sounds_4.status = FINISHED
                 
                 # check for quit (typically the Esc key)
                 if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                     core.quit()
-                    if eyetracker:
-                        eyetracker.setConnectionState(False)
                 
                 # check if all components have finished
                 if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3164,13 +2892,13 @@ for thisBeforeExpLoop in beforeExpLoop:
             trainLoop.addData('keyFB_2.keys',keyFB_2.keys)
             if keyFB_2.keys != None:  # we had a response
                 trainLoop.addData('keyFB_2.rt', keyFB_2.rt)
-                trainLoop.addData('keyFB_2.duration', keyFB_2.duration)
             sounds_4.stop()  # ensure sound has stopped at end of routine
             # the Routine "PathFB_train" was not non-slip safe, so reset the non-slip timer
             routineTimer.reset()
             
             # --- Prepare to start Routine "quickfixation" ---
             continueRoutine = True
+            routineForceEnded = False
             # update component parameters for each repeat
             # keep track of which components have finished
             quickfixationComponents = [text_2]
@@ -3187,7 +2915,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             frameN = -1
             
             # --- Run Routine "quickfixation" ---
-            routineForceEnded = not continueRoutine
             while continueRoutine and routineTimer.getTime() < 1.5:
                 # get current time
                 t = routineTimer.getTime()
@@ -3197,8 +2924,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 # update/draw components on each frame
                 
                 # *text_2* updates
-                
-                # if text_2 is starting this frame...
                 if text_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # keep track of start time/frame for later
                     text_2.frameNStart = frameN  # exact frame index
@@ -3207,16 +2932,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                     win.timeOnFlip(text_2, 'tStartRefresh')  # time at next scr refresh
                     # add timestamp to datafile
                     thisExp.timestampOnFlip(win, 'text_2.started')
-                    # update status
-                    text_2.status = STARTED
                     text_2.setAutoDraw(True)
-                
-                # if text_2 is active this frame...
-                if text_2.status == STARTED:
-                    # update params
-                    pass
-                
-                # if text_2 is stopping this frame...
                 if text_2.status == STARTED:
                     # is it time to stop? (based on global clock, using actual start)
                     if tThisFlipGlobal > text_2.tStartRefresh + 1.5-frameTolerance:
@@ -3225,15 +2941,11 @@ for thisBeforeExpLoop in beforeExpLoop:
                         text_2.frameNStop = frameN  # exact frame index
                         # add timestamp to datafile
                         thisExp.timestampOnFlip(win, 'text_2.stopped')
-                        # update status
-                        text_2.status = FINISHED
                         text_2.setAutoDraw(False)
                 
                 # check for quit (typically the Esc key)
                 if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                     core.quit()
-                    if eyetracker:
-                        eyetracker.setConnectionState(False)
                 
                 # check if all components have finished
                 if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3261,6 +2973,7 @@ for thisBeforeExpLoop in beforeExpLoop:
             
             # --- Prepare to start Routine "setconfig" ---
             continueRoutine = True
+            routineForceEnded = False
             # update component parameters for each repeat
             # Run 'Begin Routine' code from resetStuff
             # _________________________________________________
@@ -3306,7 +3019,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             frameN = -1
             
             # --- Run Routine "setconfig" ---
-            routineForceEnded = not continueRoutine
             while continueRoutine:
                 # get current time
                 t = routineTimer.getTime()
@@ -3321,8 +3033,6 @@ for thisBeforeExpLoop in beforeExpLoop:
                 # check for quit (typically the Esc key)
                 if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                     core.quit()
-                    if eyetracker:
-                        eyetracker.setConnectionState(False)
                 
                 # check if all components have finished
                 if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3342,6 +3052,8 @@ for thisBeforeExpLoop in beforeExpLoop:
             for thisComponent in setconfigComponents:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            # Run 'End Routine' code from resetStuff
+            counter +=1
             # the Routine "setconfig" was not non-slip safe, so reset the non-slip timer
             routineTimer.reset()
         # completed trainRep repeats of 'trainLoop'
@@ -3349,6 +3061,7 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         # --- Prepare to start Routine "checkPerf" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from code_4
         # checks performance on practice trials and
@@ -3424,7 +3137,6 @@ for thisBeforeExpLoop in beforeExpLoop:
         frameN = -1
         
         # --- Run Routine "checkPerf" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -3436,8 +3148,6 @@ for thisBeforeExpLoop in beforeExpLoop:
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3465,20 +3175,32 @@ for thisBeforeExpLoop in beforeExpLoop:
             saveACC   = 0
             nextPrac  = 99
             nrepcount = 0
-            fileidx = fileidx +1
+            fileidx += 1
             trainidx = 1
         elif nextPrac ==0: # repeats practice phase
             # reset
             saveACC   = 0
             nextPrac  = 99
             nrepcount = 0
-            trainidx = trainidx +1
+            trainidx += 1
         
         # only read in files for practice
         if fileidx < 4:
         ## prep files:
-            pracFile   = "conditions/inputTrain_"+str(fileidx)+ "." +str(trainidx)+".xlsx"
-            instrFile   = "conditions/inputInstr_"+str(fileidx)+".xlsx"
+            #pracFile   = "conditions/inputTrain_"+str(fileidx)+ "." +str(trainidx)+".xlsx"
+            pracFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_%d.%d.xlsx' % (
+            expInfo['train_first'],
+            expInfo['direction of x'],
+            expInfo['starting corner'],
+            fileidx,
+            trainidx
+        )
+            instrFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_%d.xlsx' % (
+            expInfo['train_first'],
+            expInfo['direction of x'],
+            expInfo['starting corner'],
+            fileidx
+        )
         
         
         ## save data:
@@ -3528,7 +3250,7 @@ for thisBeforeExpLoop in beforeExpLoop:
 # set up handler to look after randomisation of conditions etc
 experiment = data.TrialHandler(nReps=nrepExp, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('conditions/inputTest.xlsx'),
+    trialList=data.importConditions(condition_path),
     seed=None, name='experiment')
 thisExp.addLoop(experiment)  # add the loop to the experiment
 thisExperiment = experiment.trialList[0]  # so we can initialise stimuli with some values
@@ -3546,11 +3268,11 @@ for thisExperiment in experiment:
     
     # --- Prepare to start Routine "loadparams" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code_6
     # load some params such that they can be shown in first trial
     # psychopy has some problems loading otherwise 
-    
     
     alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
     thisExp.addData('alienStim', alienStim) 
@@ -3583,7 +3305,6 @@ for thisExperiment in experiment:
     frameN = -1
     
     # --- Run Routine "loadparams" ---
-    routineForceEnded = not continueRoutine
     while continueRoutine:
         # get current time
         t = routineTimer.getTime()
@@ -3595,8 +3316,6 @@ for thisExperiment in experiment:
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3640,6 +3359,7 @@ for thisExperiment in experiment:
         
         # --- Prepare to start Routine "testGrid" ---
         continueRoutine = True
+        routineForceEnded = False
         # update component parameters for each repeat
         # Run 'Begin Routine' code from gridCode_test
         start = globalClock.getTime()
@@ -3674,7 +3394,6 @@ for thisExperiment in experiment:
         frameN = -1
         
         # --- Run Routine "testGrid" ---
-        routineForceEnded = not continueRoutine
         while continueRoutine:
             # get current time
             t = routineTimer.getTime()
@@ -3734,8 +3453,6 @@ for thisExperiment in experiment:
             
             
             # *gridImage_3* updates
-            
-            # if gridImage_3 is starting this frame...
             if gridImage_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 gridImage_3.frameNStart = frameN  # exact frame index
@@ -3744,18 +3461,9 @@ for thisExperiment in experiment:
                 win.timeOnFlip(gridImage_3, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'gridImage_3.started')
-                # update status
-                gridImage_3.status = STARTED
                 gridImage_3.setAutoDraw(True)
             
-            # if gridImage_3 is active this frame...
-            if gridImage_3.status == STARTED:
-                # update params
-                pass
-            
             # *alienImage_test* updates
-            
-            # if alienImage_test is starting this frame...
             if alienImage_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 alienImage_test.frameNStart = frameN  # exact frame index
@@ -3764,18 +3472,9 @@ for thisExperiment in experiment:
                 win.timeOnFlip(alienImage_test, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'alienImage_test.started')
-                # update status
-                alienImage_test.status = STARTED
                 alienImage_test.setAutoDraw(True)
             
-            # if alienImage_test is active this frame...
-            if alienImage_test.status == STARTED:
-                # update params
-                pass
-            
             # *startPos_test* updates
-            
-            # if startPos_test is starting this frame...
             if startPos_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 startPos_test.frameNStart = frameN  # exact frame index
@@ -3784,18 +3483,9 @@ for thisExperiment in experiment:
                 win.timeOnFlip(startPos_test, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'startPos_test.started')
-                # update status
-                startPos_test.status = STARTED
                 startPos_test.setAutoDraw(True)
             
-            # if startPos_test is active this frame...
-            if startPos_test.status == STARTED:
-                # update params
-                pass
-            
             # *movePos_test* updates
-            
-            # if movePos_test is starting this frame...
             if movePos_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 movePos_test.frameNStart = frameN  # exact frame index
@@ -3804,21 +3494,14 @@ for thisExperiment in experiment:
                 win.timeOnFlip(movePos_test, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'movePos_test.started')
-                # update status
-                movePos_test.status = STARTED
                 movePos_test.setAutoDraw(True)
-            
-            # if movePos_test is active this frame...
-            if movePos_test.status == STARTED:
-                # update params
+            if movePos_test.status == STARTED:  # only update if drawing
                 movePos_test.setFillColor(moveCol, log=False)
                 movePos_test.setPos((x_movePos,y_movePos), log=False)
                 movePos_test.setLineColor(moveCol, log=False)
             
             # *key_resp_test* updates
             waitOnFlip = False
-            
-            # if key_resp_test is starting this frame...
             if key_resp_test.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
                 key_resp_test.frameNStart = frameN  # exact frame index
@@ -3827,7 +3510,6 @@ for thisExperiment in experiment:
                 win.timeOnFlip(key_resp_test, 'tStartRefresh')  # time at next scr refresh
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'key_resp_test.started')
-                # update status
                 key_resp_test.status = STARTED
                 # keyboard checking is just starting
                 waitOnFlip = True
@@ -3839,13 +3521,10 @@ for thisExperiment in experiment:
                 if len(_key_resp_test_allKeys):
                     key_resp_test.keys = _key_resp_test_allKeys[-1].name  # just the last key pressed
                     key_resp_test.rt = _key_resp_test_allKeys[-1].rt
-                    key_resp_test.duration = _key_resp_test_allKeys[-1].duration
             
             # check for quit (typically the Esc key)
             if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
                 core.quit()
-                if eyetracker:
-                    eyetracker.setConnectionState(False)
             
             # check if all components have finished
             if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3897,7 +3576,6 @@ for thisExperiment in experiment:
         moveLoop_test.addData('key_resp_test.keys',key_resp_test.keys)
         if key_resp_test.keys != None:  # we had a response
             moveLoop_test.addData('key_resp_test.rt', key_resp_test.rt)
-            moveLoop_test.addData('key_resp_test.duration', key_resp_test.duration)
         # the Routine "testGrid" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         thisExp.nextEntry()
@@ -3907,11 +3585,20 @@ for thisExperiment in experiment:
     
     # --- Prepare to start Routine "fixation" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code
-    fix_time = randint(1,2)
+    if counter %19 == 0:
+    #    thisExp.next = 'break2'
+        break_slide = 'stimuli/break.png'
+        event.waitKeys(keyList=['space'])
+    else:
+        fix_time = randint(1,2)
+    key_resp_6.keys = []
+    key_resp_6.rt = []
+    _key_resp_6_allKeys = []
     # keep track of which components have finished
-    fixationComponents = [fixation_text]
+    fixationComponents = [fixation_text, image_break_2, key_resp_6]
     for thisComponent in fixationComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -3925,7 +3612,6 @@ for thisExperiment in experiment:
     frameN = -1
     
     # --- Run Routine "fixation" ---
-    routineForceEnded = not continueRoutine
     while continueRoutine:
         # get current time
         t = routineTimer.getTime()
@@ -3935,8 +3621,6 @@ for thisExperiment in experiment:
         # update/draw components on each frame
         
         # *fixation_text* updates
-        
-        # if fixation_text is starting this frame...
         if fixation_text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             fixation_text.frameNStart = frameN  # exact frame index
@@ -3945,16 +3629,7 @@ for thisExperiment in experiment:
             win.timeOnFlip(fixation_text, 'tStartRefresh')  # time at next scr refresh
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'fixation_text.started')
-            # update status
-            fixation_text.status = STARTED
             fixation_text.setAutoDraw(True)
-        
-        # if fixation_text is active this frame...
-        if fixation_text.status == STARTED:
-            # update params
-            pass
-        
-        # if fixation_text is stopping this frame...
         if fixation_text.status == STARTED:
             # is it time to stop? (based on global clock, using actual start)
             if tThisFlipGlobal > fixation_text.tStartRefresh + fix_time-frameTolerance:
@@ -3963,15 +3638,46 @@ for thisExperiment in experiment:
                 fixation_text.frameNStop = frameN  # exact frame index
                 # add timestamp to datafile
                 thisExp.timestampOnFlip(win, 'fixation_text.stopped')
-                # update status
-                fixation_text.status = FINISHED
                 fixation_text.setAutoDraw(False)
+        
+        # *image_break_2* updates
+        if image_break_2.status == NOT_STARTED and counter%19==0:
+            # keep track of start time/frame for later
+            image_break_2.frameNStart = frameN  # exact frame index
+            image_break_2.tStart = t  # local t and not account for scr refresh
+            image_break_2.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(image_break_2, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'image_break_2.started')
+            image_break_2.setAutoDraw(True)
+        
+        # *key_resp_6* updates
+        waitOnFlip = False
+        if key_resp_6.status == NOT_STARTED and counter%19==0:
+            # keep track of start time/frame for later
+            key_resp_6.frameNStart = frameN  # exact frame index
+            key_resp_6.tStart = t  # local t and not account for scr refresh
+            key_resp_6.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(key_resp_6, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'key_resp_6.started')
+            key_resp_6.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(key_resp_6.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(key_resp_6.clearEvents, eventType='keyboard')  # clear events on next screen flip
+        if key_resp_6.status == STARTED and not waitOnFlip:
+            theseKeys = key_resp_6.getKeys(keyList=['space'], waitRelease=False)
+            _key_resp_6_allKeys.extend(theseKeys)
+            if len(_key_resp_6_allKeys):
+                key_resp_6.keys = _key_resp_6_allKeys[-1].name  # just the last key pressed
+                key_resp_6.rt = _key_resp_6_allKeys[-1].rt
+                # a response ends the routine
+                continueRoutine = False
         
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -3991,11 +3697,18 @@ for thisExperiment in experiment:
     for thisComponent in fixationComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    # check responses
+    if key_resp_6.keys in ['', [], None]:  # No response was made
+        key_resp_6.keys = None
+    experiment.addData('key_resp_6.keys',key_resp_6.keys)
+    if key_resp_6.keys != None:  # we had a response
+        experiment.addData('key_resp_6.rt', key_resp_6.rt)
     # the Routine "fixation" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     
     # --- Prepare to start Routine "setconfig" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from resetStuff
     # _________________________________________________
@@ -4041,7 +3754,6 @@ for thisExperiment in experiment:
     frameN = -1
     
     # --- Run Routine "setconfig" ---
-    routineForceEnded = not continueRoutine
     while continueRoutine:
         # get current time
         t = routineTimer.getTime()
@@ -4056,8 +3768,6 @@ for thisExperiment in experiment:
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -4077,6 +3787,8 @@ for thisExperiment in experiment:
     for thisComponent in setconfigComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    # Run 'End Routine' code from resetStuff
+    counter +=1
     # the Routine "setconfig" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     thisExp.nextEntry()
@@ -4086,6 +3798,7 @@ for thisExperiment in experiment:
 
 # --- Prepare to start Routine "earlyStop" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 # Run 'Begin Routine' code from code_5
 #endearly.stop(reset=False)
@@ -4094,7 +3807,7 @@ if showearly == 0: # finish to the end
     #url = "https://mpib.qualtrics.com/jfe/form/SV_5BmsK5GOa7G6BYq?participant="+expInfo['participant']
     #psychoJS.setRedirectUrls(url)
 elif showearly ==1:
-    endearly = "stimuli/instructions/Audio_earlystop.wav"
+    endearly = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
     #urlredirect = ""
     endstatus = "experiment_finished_early"
     thisExp.addData('endstatus', endstatus)
@@ -4103,7 +3816,7 @@ elif showearly ==1:
     #psychoJS.setRedirectUrls(url)
      
 
-slide_stop.setImage('stimuli/instructions/Slide31.png')
+slide_stop.setImage('stimuli/Slide31.png')
 key_resp_3.keys = []
 key_resp_3.rt = []
 _key_resp_3_allKeys = []
@@ -4124,7 +3837,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "earlyStop" ---
-routineForceEnded = not continueRoutine
 while continueRoutine:
     # get current time
     t = routineTimer.getTime()
@@ -4134,8 +3846,6 @@ while continueRoutine:
     # update/draw components on each frame
     
     # *slide_stop* updates
-    
-    # if slide_stop is starting this frame...
     if slide_stop.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         slide_stop.frameNStart = frameN  # exact frame index
@@ -4144,19 +3854,10 @@ while continueRoutine:
         win.timeOnFlip(slide_stop, 'tStartRefresh')  # time at next scr refresh
         # add timestamp to datafile
         thisExp.timestampOnFlip(win, 'slide_stop.started')
-        # update status
-        slide_stop.status = STARTED
         slide_stop.setAutoDraw(True)
-    
-    # if slide_stop is active this frame...
-    if slide_stop.status == STARTED:
-        # update params
-        pass
     
     # *key_resp_3* updates
     waitOnFlip = False
-    
-    # if key_resp_3 is starting this frame...
     if key_resp_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         key_resp_3.frameNStart = frameN  # exact frame index
@@ -4165,7 +3866,6 @@ while continueRoutine:
         win.timeOnFlip(key_resp_3, 'tStartRefresh')  # time at next scr refresh
         # add timestamp to datafile
         thisExp.timestampOnFlip(win, 'key_resp_3.started')
-        # update status
         key_resp_3.status = STARTED
         # keyboard checking is just starting
         waitOnFlip = True
@@ -4177,11 +3877,9 @@ while continueRoutine:
         if len(_key_resp_3_allKeys):
             key_resp_3.keys = _key_resp_3_allKeys[-1].name  # just the last key pressed
             key_resp_3.rt = _key_resp_3_allKeys[-1].rt
-            key_resp_3.duration = _key_resp_3_allKeys[-1].duration
             # a response ends the routine
             continueRoutine = False
-    
-    # if sound_stop is starting this frame...
+    # start/stop sound_stop
     if sound_stop.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         sound_stop.frameNStart = frameN  # exact frame index
@@ -4189,11 +3887,7 @@ while continueRoutine:
         sound_stop.tStartRefresh = tThisFlipGlobal  # on global time
         # add timestamp to datafile
         thisExp.addData('sound_stop.started', tThisFlipGlobal)
-        # update status
-        sound_stop.status = STARTED
         sound_stop.play(when=win)  # sync with win flip
-    
-    # if sound_stop is stopping this frame...
     if sound_stop.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
         if tThisFlipGlobal > sound_stop.tStartRefresh + 1.0-frameTolerance:
@@ -4202,20 +3896,11 @@ while continueRoutine:
             sound_stop.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'sound_stop.stopped')
-            # update status
-            sound_stop.status = FINISHED
             sound_stop.stop()
-    # update sound_stop status according to whether it's playing
-    if sound_stop.isPlaying:
-        sound_stop.status = STARTED
-    elif sound_stop.isFinished:
-        sound_stop.status = FINISHED
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -4247,7 +3932,6 @@ if key_resp_3.keys in ['', [], None]:  # No response was made
 thisExp.addData('key_resp_3.keys',key_resp_3.keys)
 if key_resp_3.keys != None:  # we had a response
     thisExp.addData('key_resp_3.rt', key_resp_3.rt)
-    thisExp.addData('key_resp_3.duration', key_resp_3.duration)
 thisExp.nextEntry()
 sound_stop.stop()  # ensure sound has stopped at end of routine
 # the Routine "earlyStop" was not non-slip safe, so reset the non-slip timer
@@ -4274,6 +3958,7 @@ for thisMini_instr2_trial in mini_instr2_trials:
     
     # --- Prepare to start Routine "instr_2" ---
     continueRoutine = True
+    routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code_12
     #audioStim3.stop(reset=False)
@@ -4281,18 +3966,24 @@ for thisMini_instr2_trial in mini_instr2_trials:
         continueRoutine = False
         
     # load slides according to index
-    slideStim2 = "stimuli/instructions/Slide"+str(startidx)+".png"
+    slideStim2 = slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide%d.png' % (
+        expInfo['train_first'],
+        expInfo['direction of x'],
+        expInfo['starting corner'],
+        startidx2
+    )
     thisExp.addData('slideStim', slideStim)
     
-    audioStim3 = "stimuli/instructions/Audio"+str(startidx)+".wav"
+    audioStim3 = slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio%d.wav' % (
+        expInfo['train_first'],
+        expInfo['direction of x'],
+        expInfo['starting corner'],
+        startidx2
+    )
     thisExp.addData('audioStim', audioStim)
     
     # note, startidx is increased in 'nextButton' component; once button pressed, idx goes up by 1
     slides_2.setImage(slideStim2)
-    # reset nextButton_2 to account for continued clicks & clear times on/off
-    nextButton_2.reset()
-    # reset prev_but_2 to account for continued clicks & clear times on/off
-    prev_but_2.reset()
     sounds_3.setSound(audioStim3, hamming=True)
     sounds_3.setVolume(1.0, log=False)
     # keep track of which components have finished
@@ -4310,7 +4001,6 @@ for thisMini_instr2_trial in mini_instr2_trials:
     frameN = -1
     
     # --- Run Routine "instr_2" ---
-    routineForceEnded = not continueRoutine
     while continueRoutine:
         # get current time
         t = routineTimer.getTime()
@@ -4320,8 +4010,6 @@ for thisMini_instr2_trial in mini_instr2_trials:
         # update/draw components on each frame
         
         # *slides_2* updates
-        
-        # if slides_2 is starting this frame...
         if slides_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             slides_2.frameNStart = frameN  # exact frame index
@@ -4330,159 +4018,97 @@ for thisMini_instr2_trial in mini_instr2_trials:
             win.timeOnFlip(slides_2, 'tStartRefresh')  # time at next scr refresh
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'slides_2.started')
-            # update status
-            slides_2.status = STARTED
             slides_2.setAutoDraw(True)
         
-        # if slides_2 is active this frame...
-        if slides_2.status == STARTED:
-            # update params
-            pass
         # *nextButton_2* updates
-        
-        # if nextButton_2 is starting this frame...
         if nextButton_2.status == NOT_STARTED and tThisFlip >= 0-frameTolerance:
             # keep track of start time/frame for later
             nextButton_2.frameNStart = frameN  # exact frame index
             nextButton_2.tStart = t  # local t and not account for scr refresh
             nextButton_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(nextButton_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            nextButton_2.status = STARTED
             nextButton_2.setAutoDraw(True)
-        
-        # if nextButton_2 is active this frame...
         if nextButton_2.status == STARTED:
-            # update params
-            pass
             # check whether nextButton_2 has been pressed
             if nextButton_2.isClicked:
                 if not nextButton_2.wasClicked:
-                    # if this is a new click, store time of first click and clicked until
-                    nextButton_2.timesOn.append(nextButton_2.buttonClock.getTime())
-                    nextButton_2.timesOff.append(nextButton_2.buttonClock.getTime())
-                elif len(nextButton_2.timesOff):
-                    # if click is continuing from last frame, update time of clicked until
-                    nextButton_2.timesOff[-1] = nextButton_2.buttonClock.getTime()
+                    nextButton_2.timesOn.append(nextButton_2.buttonClock.getTime()) # store time of first click
+                    nextButton_2.timesOff.append(nextButton_2.buttonClock.getTime()) # store time clicked until
+                else:
+                    nextButton_2.timesOff[-1] = nextButton_2.buttonClock.getTime() # update time clicked until
                 if not nextButton_2.wasClicked:
-                    # end routine when nextButton_2 is clicked
-                    continueRoutine = False
-                if not nextButton_2.wasClicked:
-                    # run callback code when nextButton_2 is clicked
+                    continueRoutine = False  # end routine when nextButton_2 is clicked
                     startidx2 += 1
                     button_name = "next"
-        # take note of whether nextButton_2 was clicked, so that next frame we know if clicks are new
-        nextButton_2.wasClicked = nextButton_2.isClicked and nextButton_2.status == STARTED
+                nextButton_2.wasClicked = True  # if nextButton_2 is still clicked next frame, it is not a new click
+            else:
+                nextButton_2.wasClicked = False  # if nextButton_2 is clicked next frame, it is a new click
+        else:
+            nextButton_2.wasClicked = False  # if nextButton_2 is clicked next frame, it is a new click
         
         # *nextBox_2* updates
-        
-        # if nextBox_2 is starting this frame...
         if nextBox_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             nextBox_2.frameNStart = frameN  # exact frame index
             nextBox_2.tStart = t  # local t and not account for scr refresh
             nextBox_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(nextBox_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            nextBox_2.status = STARTED
             nextBox_2.setAutoDraw(True)
         
-        # if nextBox_2 is active this frame...
-        if nextBox_2.status == STARTED:
-            # update params
-            pass
-        
         # *nextText_2* updates
-        
-        # if nextText_2 is starting this frame...
         if nextText_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             nextText_2.frameNStart = frameN  # exact frame index
             nextText_2.tStart = t  # local t and not account for scr refresh
             nextText_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(nextText_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            nextText_2.status = STARTED
             nextText_2.setAutoDraw(True)
         
-        # if nextText_2 is active this frame...
-        if nextText_2.status == STARTED:
-            # update params
-            pass
         # *prev_but_2* updates
-        
-        # if prev_but_2 is starting this frame...
         if prev_but_2.status == NOT_STARTED and tThisFlip >= 0-frameTolerance:
             # keep track of start time/frame for later
             prev_but_2.frameNStart = frameN  # exact frame index
             prev_but_2.tStart = t  # local t and not account for scr refresh
             prev_but_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(prev_but_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            prev_but_2.status = STARTED
             prev_but_2.setAutoDraw(True)
-        
-        # if prev_but_2 is active this frame...
         if prev_but_2.status == STARTED:
-            # update params
-            pass
             # check whether prev_but_2 has been pressed
             if prev_but_2.isClicked:
                 if not prev_but_2.wasClicked:
-                    # if this is a new click, store time of first click and clicked until
-                    prev_but_2.timesOn.append(prev_but_2.buttonClock.getTime())
-                    prev_but_2.timesOff.append(prev_but_2.buttonClock.getTime())
-                elif len(prev_but_2.timesOff):
-                    # if click is continuing from last frame, update time of clicked until
-                    prev_but_2.timesOff[-1] = prev_but_2.buttonClock.getTime()
+                    prev_but_2.timesOn.append(prev_but_2.buttonClock.getTime()) # store time of first click
+                    prev_but_2.timesOff.append(prev_but_2.buttonClock.getTime()) # store time clicked until
+                else:
+                    prev_but_2.timesOff[-1] = prev_but_2.buttonClock.getTime() # update time clicked until
                 if not prev_but_2.wasClicked:
-                    # end routine when prev_but_2 is clicked
-                    continueRoutine = False
-                if not prev_but_2.wasClicked:
-                    # run callback code when prev_but_2 is clicked
+                    continueRoutine = False  # end routine when prev_but_2 is clicked
                     if startidx2 > 1:
                         startidx2 -= 1
                     button_name = "previous"
-        # take note of whether prev_but_2 was clicked, so that next frame we know if clicks are new
-        prev_but_2.wasClicked = prev_but_2.isClicked and prev_but_2.status == STARTED
+                prev_but_2.wasClicked = True  # if prev_but_2 is still clicked next frame, it is not a new click
+            else:
+                prev_but_2.wasClicked = False  # if prev_but_2 is clicked next frame, it is a new click
+        else:
+            prev_but_2.wasClicked = False  # if prev_but_2 is clicked next frame, it is a new click
         
         # *prev_box_2* updates
-        
-        # if prev_box_2 is starting this frame...
         if prev_box_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             prev_box_2.frameNStart = frameN  # exact frame index
             prev_box_2.tStart = t  # local t and not account for scr refresh
             prev_box_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(prev_box_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            prev_box_2.status = STARTED
             prev_box_2.setAutoDraw(True)
         
-        # if prev_box_2 is active this frame...
-        if prev_box_2.status == STARTED:
-            # update params
-            pass
-        
         # *prev_text_2* updates
-        
-        # if prev_text_2 is starting this frame...
         if prev_text_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             prev_text_2.frameNStart = frameN  # exact frame index
             prev_text_2.tStart = t  # local t and not account for scr refresh
             prev_text_2.tStartRefresh = tThisFlipGlobal  # on global time
             win.timeOnFlip(prev_text_2, 'tStartRefresh')  # time at next scr refresh
-            # update status
-            prev_text_2.status = STARTED
             prev_text_2.setAutoDraw(True)
-        
-        # if prev_text_2 is active this frame...
-        if prev_text_2.status == STARTED:
-            # update params
-            pass
-        
-        # if sounds_3 is starting this frame...
+        # start/stop sounds_3
         if sounds_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
             sounds_3.frameNStart = frameN  # exact frame index
@@ -4490,20 +4116,11 @@ for thisMini_instr2_trial in mini_instr2_trials:
             sounds_3.tStartRefresh = tThisFlipGlobal  # on global time
             # add timestamp to datafile
             thisExp.addData('sounds_3.started', tThisFlipGlobal)
-            # update status
-            sounds_3.status = STARTED
             sounds_3.play(when=win)  # sync with win flip
-        # update sounds_3 status according to whether it's playing
-        if sounds_3.isPlaying:
-            sounds_3.status = STARTED
-        elif sounds_3.isFinished:
-            sounds_3.status = FINISHED
         
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
-            if eyetracker:
-                eyetracker.setConnectionState(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -4527,7 +4144,7 @@ for thisMini_instr2_trial in mini_instr2_trials:
     # finish routine once hit slide number
     # startidx is increased with each button press
     
-    if startidx2 > endidx2[loopidx2-1]:
+    if startidx2 > maxSlide2:
         mini_instr2_trials.finished = True
         loopidx2+=1
     mini_instr2_trials.addData('nextButton_2.numClicks', nextButton_2.numClicks)
@@ -4554,16 +4171,16 @@ for thisMini_instr2_trial in mini_instr2_trials:
 
 # --- Prepare to start Routine "endExp" ---
 continueRoutine = True
+routineForceEnded = False
 # update component parameters for each repeat
 # Run 'Begin Routine' code from bye_code
 #endlate.stop(reset=False)
 if showearly == 1:
     continueRoutine = False
-    endlate = "stimuli/instructions/Audio_earlystop.wav"
-sound_1.setSound(endlate, secs=1.0, hamming=True)
-sound_1.setVolume(1.0, log=False)
+    #endlate = "stimuli/instructions/Audio_earlystop.wav"
+    #sound_1.isFinished = True
 # keep track of which components have finished
-endExpComponents = [bye, sound_1]
+endExpComponents = [bye]
 for thisComponent in endExpComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -4577,7 +4194,6 @@ _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
 # --- Run Routine "endExp" ---
-routineForceEnded = not continueRoutine
 while continueRoutine and routineTimer.getTime() < 3.0:
     # get current time
     t = routineTimer.getTime()
@@ -4587,8 +4203,6 @@ while continueRoutine and routineTimer.getTime() < 3.0:
     # update/draw components on each frame
     
     # *bye* updates
-    
-    # if bye is starting this frame...
     if bye.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
         bye.frameNStart = frameN  # exact frame index
@@ -4597,16 +4211,7 @@ while continueRoutine and routineTimer.getTime() < 3.0:
         win.timeOnFlip(bye, 'tStartRefresh')  # time at next scr refresh
         # add timestamp to datafile
         thisExp.timestampOnFlip(win, 'bye.started')
-        # update status
-        bye.status = STARTED
         bye.setAutoDraw(True)
-    
-    # if bye is active this frame...
-    if bye.status == STARTED:
-        # update params
-        pass
-    
-    # if bye is stopping this frame...
     if bye.status == STARTED:
         # is it time to stop? (based on global clock, using actual start)
         if tThisFlipGlobal > bye.tStartRefresh + 3-frameTolerance:
@@ -4615,45 +4220,11 @@ while continueRoutine and routineTimer.getTime() < 3.0:
             bye.frameNStop = frameN  # exact frame index
             # add timestamp to datafile
             thisExp.timestampOnFlip(win, 'bye.stopped')
-            # update status
-            bye.status = FINISHED
             bye.setAutoDraw(False)
-    
-    # if sound_1 is starting this frame...
-    if sound_1.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-        # keep track of start time/frame for later
-        sound_1.frameNStart = frameN  # exact frame index
-        sound_1.tStart = t  # local t and not account for scr refresh
-        sound_1.tStartRefresh = tThisFlipGlobal  # on global time
-        # add timestamp to datafile
-        thisExp.addData('sound_1.started', tThisFlipGlobal)
-        # update status
-        sound_1.status = STARTED
-        sound_1.play(when=win)  # sync with win flip
-    
-    # if sound_1 is stopping this frame...
-    if sound_1.status == STARTED:
-        # is it time to stop? (based on global clock, using actual start)
-        if tThisFlipGlobal > sound_1.tStartRefresh + 1.0-frameTolerance:
-            # keep track of stop time/frame for later
-            sound_1.tStop = t  # not accounting for scr refresh
-            sound_1.frameNStop = frameN  # exact frame index
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'sound_1.stopped')
-            # update status
-            sound_1.status = FINISHED
-            sound_1.stop()
-    # update sound_1 status according to whether it's playing
-    if sound_1.isPlaying:
-        sound_1.status = STARTED
-    elif sound_1.isFinished:
-        sound_1.status = FINISHED
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
-        if eyetracker:
-            eyetracker.setConnectionState(False)
     
     # check if all components have finished
     if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -4680,7 +4251,6 @@ total_time = end_all_time - start_all_time
 thisExp.addData('total_time',total_time)
 thisExp.addData('end_all_time', 'end_all_time')
 
-sound_1.stop()  # ensure sound has stopped at end of routine
 # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
 if routineForceEnded:
     routineTimer.reset()
