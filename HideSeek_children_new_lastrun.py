@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on October 30, 2024, at 16:45
+    on November 07, 2024, at 15:59
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -44,7 +44,7 @@ expName = 'HideSeek_v1'  # from the Builder filename that created this script
 expInfo = {
     'participant': '',
     'train_first': '',
-    'direction of x': '',
+    '00_coordinate': '',
     'starting corner': '',
 }
 # --- Show participant info dialog --
@@ -56,12 +56,12 @@ expInfo['expName'] = expName
 expInfo['psychopyVersion'] = psychopyVersion
 
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = _thisDir + os.sep + u'data/%s_%s_%s_%s_%s' % (expInfo['participant'], expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'], expInfo['date'])
+filename = _thisDir + os.sep + u'data/%s_%s_%s_%s_%s' % (expInfo['participant'], expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'], expInfo['date'])
 
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\45040\\gcasa\\g-casa_children_task\\HideSeek_children_new_lastrun.py',
+    originPath='C:\\Users\\45040\\Dropbox\\PC (2)\\Downloads\\g-casa_children_task-master\\g-casa_children_task-master\\HideSeek_children_new_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
@@ -113,14 +113,14 @@ import pandas as pd
 inputidx = 1
 fileidx = 1
 trainidx = 1
-instrFile_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+instrFile_path = 'conditions/schedules/%s_first/%s_00/%s/inputInstr_1.xlsx' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 instrFile = pd.read_excel(instrFile_path)
 
-pracFile_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+pracFile_path = 'conditions/schedules/%s_first/%s_00/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 pracFile   = pd.read_excel(pracFile_path)
 
 # main experiment
-condition_path = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTest.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+condition_path = 'conditions/schedules/%s_first/%s_00/%s/inputTest.xlsx' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 conditions = pd.read_excel(condition_path)
 
 nrepExp = 1
@@ -186,7 +186,7 @@ start_all_time =[]
 #start_point = 'bottom_left'  # 'bottom_left', 'bottom_right', 'top_left', or 'top_right'
 
 # Construct the relative path starting from the 'conditions' folder
-schedules_path = 'conditions/schedules/' + expInfo['train_first'] + '_first/x_' + expInfo['direction of x'] + '_steps/' + expInfo['starting corner'] + '/'
+schedules_path = 'conditions/schedules/' + expInfo['train_first'] + '_first/' + expInfo['00_coordinate'] + '_steps/' + expInfo['starting corner'] + '/'
 # Run 'Begin Experiment' code from redirect_web
 urlredirect=0
 
@@ -217,8 +217,8 @@ showGexam       = [0,0,0,0,0,0,0,0,0,0,0]
 # --- Initialize components for Routine "instr_1" ---
 # Run 'Begin Experiment' code from loadSlides
 # initiate first slide
-slideStim= 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide1.png' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner']) #"stimuli/instructions/Slide1.png"
-audioStim= 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner']) #"stimuli/instructions/Audio1.wav"
+slideStim= 'conditions/schedules/%s_first/%s_00/%s/instructions/Slide1.png' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner']) #"stimuli/instructions/Slide1.png"
+audioStim= 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio1.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner']) #"stimuli/instructions/Audio1.wav"
 
 startidx = 1
 loopidx  = 1
@@ -353,9 +353,9 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 # input, ie csv file:
 #trainRep = len(trialTrain)
 if fileidx < 4:
-    instrFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_%d.xlsx' % (
+    instrFile = 'conditions/schedules/%s_first/%s_00/%s/inputInstr_%d.xlsx' % (
     expInfo['train_first'],
-    expInfo['direction of x'],
+    expInfo['00_coordinate'],
     expInfo['starting corner'],
     fileidx
     )
@@ -410,7 +410,7 @@ choice     = 0
 alienStim = "stimuli/alien_stimuli/11.png"
 
 # alien's text box:
-Audio_intr = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+Audio_intr = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 #messageInstr = "This is my" '\n' "starting position" '\n' "Press spacebar to" '\n' "see where I hide." 
 
 # _________________________________________________
@@ -457,7 +457,7 @@ sounds_1.setVolume(1.0)
 # --- Initialize components for Routine "PathFB_instr" ---
 # Run 'Begin Experiment' code from pathFB_2
 # new message:
-intrAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+intrAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 
 #messageFBinstr = "This is where I hide." '\n' "Let me show" '\n' "you my route."
 #msgColFB   = blackCol
@@ -580,9 +580,9 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 
 #pracFile = 'conditions/schedules/%s_first/%s/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
 if fileidx < 4:
-    pracFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_%d.%d.xlsx' % (
+    pracFile = 'conditions/schedules/%s_first/%s_00/%s/inputTrain_%d.%d.xlsx' % (
     expInfo['train_first'],
-    expInfo['direction of x'],
+    expInfo['00_coordinate'],
     expInfo['starting corner'],
     fileidx,
     trainidx
@@ -696,7 +696,7 @@ text_2 = visual.TextStim(win=win, name='text_2',
 
 # --- Initialize components for Routine "PathFB_train" ---
 # Run 'Begin Experiment' code from pathFB
-pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+pickAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 
 messageFB = "test"
 msgColFB  = whiteCol
@@ -962,7 +962,6 @@ key_resp_test = keyboard.Keyboard()
 
 # --- Initialize components for Routine "fixation" ---
 # Run 'Begin Experiment' code from code
-break_slide = 'stimuli/break.png'
 fix_time = randint(1,2)
 fixation_text = visual.TextStim(win=win, name='fixation_text',
     text='+',
@@ -971,15 +970,20 @@ fixation_text = visual.TextStim(win=win, name='fixation_text',
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
-image_break_2 = visual.ImageStim(
+
+# --- Initialize components for Routine "break_screen" ---
+# Run 'Begin Experiment' code from code_14
+#break_on_off = 1
+break_slide = 'stimuli/break.png'
+image_break_3 = visual.ImageStim(
     win=win,
-    name='image_break_2', 
+    name='image_break_3', 
     image=break_slide, mask=None, anchor='center',
     ori=0.0, pos=(0, 0), size=(0.5, 0.5),
     color=[1,1,1], colorSpace='rgb', opacity=None,
     flipHoriz=False, flipVert=False,
-    texRes=128.0, interpolate=True, depth=-2.0)
-key_resp_6 = keyboard.Keyboard()
+    texRes=128.0, interpolate=True, depth=-1.0)
+key_resp_7 = keyboard.Keyboard()
 
 # --- Initialize components for Routine "setconfig" ---
 # Run 'Begin Experiment' code from resetStuff
@@ -989,7 +993,7 @@ nrepcount = 0
 # --- Initialize components for Routine "earlyStop" ---
 # Run 'Begin Experiment' code from code_5
 endstatus = " "
-endearly = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+endearly = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 slide_stop = visual.ImageStim(
     win=win,
     name='slide_stop', 
@@ -1006,8 +1010,8 @@ sound_stop.setVolume(1.0)
 # --- Initialize components for Routine "instr_2" ---
 # Run 'Begin Experiment' code from code_12
 # initiate first slide
-slideStim2='conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide32.png' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
-audioStim3='conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio32.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+slideStim2='conditions/schedules/%s_first/%s_00/%s/instructions/Slide32.png' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
+audioStim3='conditions/schedules/%s_first/%s_00/%s/instructions/Audio32.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 
 
 startidx2 = 32
@@ -1279,17 +1283,17 @@ for thisBeforeExpLoop in beforeExpLoop:
         # Run 'Begin Routine' code from loadSlides
         #audioStim.stop(reset=True) #False
         # load slides according to index
-        slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide%d.png' % (
+        slideStim = 'conditions/schedules/%s_first/%s_00/%s/instructions/Slide%d.png' % (
             expInfo['train_first'],
-            expInfo['direction of x'],
+            expInfo['00_coordinate'],
             expInfo['starting corner'],
             startidx
         ) #"stimuli/instructions/Slide"+str(startidx)+".png"
         thisExp.addData('slideStim', slideStim)
         
-        audioStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio%d.wav' % (
+        audioStim = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio%d.wav' % (
             expInfo['train_first'],
-            expInfo['direction of x'],
+            expInfo['00_coordinate'],
             expInfo['starting corner'],
             startidx
         ) #"stimuli/instructions/Audio"+str(startidx)+".wav"
@@ -1653,7 +1657,7 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         
         alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
-        Audio_intr = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+        Audio_intr = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_intr1.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
         
         
         thisExp.addData('instrFile', instrFile) 
@@ -1800,7 +1804,7 @@ for thisBeforeExpLoop in beforeExpLoop:
         
         #messageFBinstr = "This is where I hide." '\n' "Let me show" '\n' "you my route."
         #msgColFB   = blackCol
-        intrAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+        intrAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_intr2.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
         
         
         alienStim = "stimuli/alien_stimuli/"+str(alienID)+".png"
@@ -2614,7 +2618,7 @@ for thisBeforeExpLoop in beforeExpLoop:
             # ---------------------------------
             if corrAns==1:
                 #messageFB = "CORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+                pickAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_corr.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
                 msgColFB  = greenCol
                 moveColFB = greenCol
                 corrColFB = greenCol
@@ -2625,7 +2629,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                 
             elif corrAns ==0 and aCorr==0:
                 #messageFB = "INCORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_fals.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+                pickAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_fals.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
                 msgColFB  = redCol
                 moveColFB = redCol
              
@@ -2638,7 +2642,7 @@ for thisBeforeExpLoop in beforeExpLoop:
                 
             elif corrAns ==0 and aCorr==1:
                 #messageFB = "INCORRECT!" '\n' "Let me show" '\n' "you my route."
-                pickAudio = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_acorr.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+                pickAudio = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_acorr.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
                 msgColFB  = yellCol
                 moveColFB = yellCol
              
@@ -3188,16 +3192,16 @@ for thisBeforeExpLoop in beforeExpLoop:
         if fileidx < 4:
         ## prep files:
             #pracFile   = "conditions/inputTrain_"+str(fileidx)+ "." +str(trainidx)+".xlsx"
-            pracFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputTrain_%d.%d.xlsx' % (
+            pracFile = 'conditions/schedules/%s_first/%s_00/%s/inputTrain_%d.%d.xlsx' % (
             expInfo['train_first'],
-            expInfo['direction of x'],
+            expInfo['00_coordinate'],
             expInfo['starting corner'],
             fileidx,
             trainidx
         )
-            instrFile = 'conditions/schedules/%s_first/x_%s_steps/%s/inputInstr_%d.xlsx' % (
+            instrFile = 'conditions/schedules/%s_first/%s_00/%s/inputInstr_%d.xlsx' % (
             expInfo['train_first'],
-            expInfo['direction of x'],
+            expInfo['00_coordinate'],
             expInfo['starting corner'],
             fileidx
         )
@@ -3588,17 +3592,9 @@ for thisExperiment in experiment:
     routineForceEnded = False
     # update component parameters for each repeat
     # Run 'Begin Routine' code from code
-    if counter %19 == 0:
-    #    thisExp.next = 'break2'
-        break_slide = 'stimuli/break.png'
-        event.waitKeys(keyList=['space'])
-    else:
-        fix_time = randint(1,2)
-    key_resp_6.keys = []
-    key_resp_6.rt = []
-    _key_resp_6_allKeys = []
+    fix_time = randint(1,2)
     # keep track of which components have finished
-    fixationComponents = [fixation_text, image_break_2, key_resp_6]
+    fixationComponents = [fixation_text]
     for thisComponent in fixationComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -3640,41 +3636,6 @@ for thisExperiment in experiment:
                 thisExp.timestampOnFlip(win, 'fixation_text.stopped')
                 fixation_text.setAutoDraw(False)
         
-        # *image_break_2* updates
-        if image_break_2.status == NOT_STARTED and counter%19==0:
-            # keep track of start time/frame for later
-            image_break_2.frameNStart = frameN  # exact frame index
-            image_break_2.tStart = t  # local t and not account for scr refresh
-            image_break_2.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(image_break_2, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'image_break_2.started')
-            image_break_2.setAutoDraw(True)
-        
-        # *key_resp_6* updates
-        waitOnFlip = False
-        if key_resp_6.status == NOT_STARTED and counter%19==0:
-            # keep track of start time/frame for later
-            key_resp_6.frameNStart = frameN  # exact frame index
-            key_resp_6.tStart = t  # local t and not account for scr refresh
-            key_resp_6.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(key_resp_6, 'tStartRefresh')  # time at next scr refresh
-            # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'key_resp_6.started')
-            key_resp_6.status = STARTED
-            # keyboard checking is just starting
-            waitOnFlip = True
-            win.callOnFlip(key_resp_6.clock.reset)  # t=0 on next screen flip
-            win.callOnFlip(key_resp_6.clearEvents, eventType='keyboard')  # clear events on next screen flip
-        if key_resp_6.status == STARTED and not waitOnFlip:
-            theseKeys = key_resp_6.getKeys(keyList=['space'], waitRelease=False)
-            _key_resp_6_allKeys.extend(theseKeys)
-            if len(_key_resp_6_allKeys):
-                key_resp_6.keys = _key_resp_6_allKeys[-1].name  # just the last key pressed
-                key_resp_6.rt = _key_resp_6_allKeys[-1].rt
-                # a response ends the routine
-                continueRoutine = False
-        
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
@@ -3697,14 +3658,138 @@ for thisExperiment in experiment:
     for thisComponent in fixationComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    # check responses
-    if key_resp_6.keys in ['', [], None]:  # No response was made
-        key_resp_6.keys = None
-    experiment.addData('key_resp_6.keys',key_resp_6.keys)
-    if key_resp_6.keys != None:  # we had a response
-        experiment.addData('key_resp_6.rt', key_resp_6.rt)
     # the Routine "fixation" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    breaks = data.TrialHandler(nReps=break_on_off, method='sequential', 
+        extraInfo=expInfo, originPath=-1,
+        trialList=data.importConditions(condition_path),
+        seed=None, name='breaks')
+    thisExp.addLoop(breaks)  # add the loop to the experiment
+    thisBreak = breaks.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisBreak.rgb)
+    if thisBreak != None:
+        for paramName in thisBreak:
+            exec('{} = thisBreak[paramName]'.format(paramName))
+    
+    for thisBreak in breaks:
+        currentLoop = breaks
+        # abbreviate parameter names if possible (e.g. rgb = thisBreak.rgb)
+        if thisBreak != None:
+            for paramName in thisBreak:
+                exec('{} = thisBreak[paramName]'.format(paramName))
+        
+        # --- Prepare to start Routine "break_screen" ---
+        continueRoutine = True
+        routineForceEnded = False
+        # update component parameters for each repeat
+        # Run 'Begin Routine' code from code_14
+        break_slide = 'stimuli/break.png'
+        #if break_on_off == 1:#currentTrial['break_screen'] == 1:
+        #    breaks = True
+        key_resp_7.keys = []
+        key_resp_7.rt = []
+        _key_resp_7_allKeys = []
+        # keep track of which components have finished
+        break_screenComponents = [image_break_3, key_resp_7]
+        for thisComponent in break_screenComponents:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "break_screen" ---
+        while continueRoutine:
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            # Run 'Each Frame' code from code_14
+            if key_resp_7.keys == "space":
+                continueRoutine = False
+                breaks.finished = True
+                break_on_off = 0
+            
+            # *image_break_3* updates
+            if image_break_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                image_break_3.frameNStart = frameN  # exact frame index
+                image_break_3.tStart = t  # local t and not account for scr refresh
+                image_break_3.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(image_break_3, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'image_break_3.started')
+                image_break_3.setAutoDraw(True)
+            
+            # *key_resp_7* updates
+            waitOnFlip = False
+            if key_resp_7.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                key_resp_7.frameNStart = frameN  # exact frame index
+                key_resp_7.tStart = t  # local t and not account for scr refresh
+                key_resp_7.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(key_resp_7, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'key_resp_7.started')
+                key_resp_7.status = STARTED
+                # keyboard checking is just starting
+                waitOnFlip = True
+                win.callOnFlip(key_resp_7.clock.reset)  # t=0 on next screen flip
+                win.callOnFlip(key_resp_7.clearEvents, eventType='keyboard')  # clear events on next screen flip
+            if key_resp_7.status == STARTED and not waitOnFlip:
+                theseKeys = key_resp_7.getKeys(keyList=['space', 'q'], waitRelease=False)
+                _key_resp_7_allKeys.extend(theseKeys)
+                if len(_key_resp_7_allKeys):
+                    key_resp_7.keys = _key_resp_7_allKeys[-1].name  # just the last key pressed
+                    key_resp_7.rt = _key_resp_7_allKeys[-1].rt
+                    # a response ends the routine
+                    continueRoutine = False
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                routineForceEnded = True
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in break_screenComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "break_screen" ---
+        for thisComponent in break_screenComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # Run 'End Routine' code from code_14
+        #break_on_off = 0
+        # check responses
+        if key_resp_7.keys in ['', [], None]:  # No response was made
+            key_resp_7.keys = None
+        breaks.addData('key_resp_7.keys',key_resp_7.keys)
+        if key_resp_7.keys != None:  # we had a response
+            breaks.addData('key_resp_7.rt', key_resp_7.rt)
+        # the Routine "break_screen" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        thisExp.nextEntry()
+        
+    # completed break_on_off repeats of 'breaks'
+    
     
     # --- Prepare to start Routine "setconfig" ---
     continueRoutine = True
@@ -3807,7 +3892,7 @@ if showearly == 0: # finish to the end
     #url = "https://mpib.qualtrics.com/jfe/form/SV_5BmsK5GOa7G6BYq?participant="+expInfo['participant']
     #psychoJS.setRedirectUrls(url)
 elif showearly ==1:
-    endearly = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+    endearly = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio_earlystop.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
     #urlredirect = ""
     endstatus = "experiment_finished_early"
     thisExp.addData('endstatus', endstatus)
@@ -3966,17 +4051,17 @@ for thisMini_instr2_trial in mini_instr2_trials:
         continueRoutine = False
         
     # load slides according to index
-    slideStim2 = slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Slide%d.png' % (
+    slideStim2 = slideStim = 'conditions/schedules/%s_first/%s_00/%s/instructions/Slide%d.png' % (
         expInfo['train_first'],
-        expInfo['direction of x'],
+        expInfo['00_coordinate'],
         expInfo['starting corner'],
         startidx2
     )
     thisExp.addData('slideStim', slideStim)
     
-    audioStim3 = slideStim = 'conditions/schedules/%s_first/x_%s_steps/%s/instructions/Audio%d.wav' % (
+    audioStim3 = slideStim = 'conditions/schedules/%s_first/%s_00/%s/instructions/Audio%d.wav' % (
         expInfo['train_first'],
-        expInfo['direction of x'],
+        expInfo['00_coordinate'],
         expInfo['starting corner'],
         startidx2
     )
