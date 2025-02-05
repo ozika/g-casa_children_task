@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2022.2.5),
-    on November 07, 2024, at 15:59
+    on February 05, 2025, at 13:40
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -61,7 +61,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s_%s_%s' % (expInfo['participant'],
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\45040\\Dropbox\\PC (2)\\Downloads\\g-casa_children_task-master\\g-casa_children_task-master\\HideSeek_children_new_lastrun.py',
+    originPath='C:\\Users\\exp-gcasa-study\\Desktop\\g-casa_children_task\\HideSeek_children_new_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
@@ -73,7 +73,7 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # --- Setup the Window ---
 win = visual.Window(
-    size=[1707, 960], fullscr=True, screen=0, 
+    size=[1920, 1200], fullscr=True, screen=0, 
     winType='pyglet', allowStencil=False,
     monitor='testMonitor', color=[0.5843, 0.5843, 0.5843], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
@@ -130,13 +130,10 @@ nrepExp = 1
 repChoice = 999
 
 # nr of repetition within each practice round
-# for now, max per practice is 4 
-#maxPracRep = 3
 # this is the number of reps for practice round
-#maxRep     = maxPracRep*2
-maxRep      = 7 #earlier 3 -> now 4x6 = 24 new trials max
+maxRep      = 7 #earlier 3 -> now 5x6 = 24 new trials max
 maxPracRep = maxRep
-praclen    = 24 #this will change , just need to initialise it
+praclen    = 30 #this will change , just need to initialise it
 cumAcctrain = 0
 
 
@@ -186,7 +183,7 @@ start_all_time =[]
 #start_point = 'bottom_left'  # 'bottom_left', 'bottom_right', 'top_left', or 'top_right'
 
 # Construct the relative path starting from the 'conditions' folder
-schedules_path = 'conditions/schedules/' + expInfo['train_first'] + '_first/' + expInfo['00_coordinate'] + '_steps/' + expInfo['starting corner'] + '/'
+
 # Run 'Begin Experiment' code from redirect_web
 urlredirect=0
 
@@ -206,13 +203,13 @@ urlredirect=0
 
 #### TRAINING
 # 1: show it, 0: do not show it
-#showTrain        = [0,0,0,1,0,0,1,0,0,1,0]
-showTrain        = [0,0,0,0,0,0,0,0,0,0,0] 
+showTrain        = [0,0,0,1,0,0,1,0,0,1,0]
+#showTrain        = [0,0,0,0,0,0,0,0,0,0,0] 
 
 #### GRID EXAMPLE
 # 1: show it, 0: do not show it
-#showGexam       = [1,1,1,0,1,1,0,1,1,0,0] 
-showGexam       = [0,0,0,0,0,0,0,0,0,0,0] 
+showGexam       = [1,1,1,0,1,1,0,1,1,0,0] 
+#showGexam       = [0,0,0,0,0,0,0,0,0,0,0] 
 
 # --- Initialize components for Routine "instr_1" ---
 # Run 'Begin Experiment' code from loadSlides
@@ -228,10 +225,10 @@ instrep  = 999
 
 
 # this need to match the slides you want to show at each turn
-endidx   = [12,14,16,20,21,22,25,26,27,31] # modify where to stop 
+endidx   = [12,14,16,20,21,22,25,26,27,32] # modify where to stop 
 
 # last slide, then the loop terminates and the experiment starts
-maxSlide = 31
+maxSlide = 32
 
 # it is making as many turnovers as there are numbers in endidx -> this is baically how many times it goes back and forth between isntruction slides and the grid showing different examples
 beforeRep = len(endidx)
@@ -578,7 +575,7 @@ all_y = [-0.4, -0.32, -0.24, -0.16, -0.08, 0, 0.08, 0.16, 0.24, 0.32]
 # _________________________________________________
 # input, ie csv file:
 
-#pracFile = 'conditions/schedules/%s_first/%s/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['direction of x'], expInfo['starting corner'])
+#pracFile = 'conditions/schedules/%s_first/%s/%s/inputTrain_1.1.xlsx' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 if fileidx < 4:
     pracFile = 'conditions/schedules/%s_first/%s_00/%s/inputTrain_%d.%d.xlsx' % (
     expInfo['train_first'],
@@ -814,10 +811,10 @@ addNrep   = 1
 nextPrac  = 99
 earlierperf = 0
 
-#  performance threshold: 70% -> trial number = 25
-#  25 (praclen) * 0.7 = 17.5, round down = 17 -> need to have 17 correct to move forward
+#  performance threshold: 70% -> trial number = 30
+#  30 (praclen) * 0.7 = 21, round down = 17 -> need to have 21 correct to move forward
 percthres = 0.7
-perfthres = 17
+perfthres = 21
 # as a reminder, this is the variable to compare the current accuracy to the performance threshold: compareACC
 
 # --- Initialize components for Routine "loadparams" ---
@@ -960,30 +957,14 @@ movePos_test = visual.ShapeStim(
     opacity=None, depth=-4.0, interpolate=True)
 key_resp_test = keyboard.Keyboard()
 
-# --- Initialize components for Routine "fixation" ---
-# Run 'Begin Experiment' code from code
-fix_time = randint(1,2)
-fixation_text = visual.TextStim(win=win, name='fixation_text',
+# --- Initialize components for Routine "fixation_2" ---
+text_3 = visual.TextStim(win=win, name='text_3',
     text='+',
     font='Open Sans',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color=[-1.0000, -1.0000, -1.0000], colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-1.0);
-
-# --- Initialize components for Routine "break_screen" ---
-# Run 'Begin Experiment' code from code_14
-#break_on_off = 1
-break_slide = 'stimuli/break.png'
-image_break_3 = visual.ImageStim(
-    win=win,
-    name='image_break_3', 
-    image=break_slide, mask=None, anchor='center',
-    ori=0.0, pos=(0, 0), size=(0.5, 0.5),
-    color=[1,1,1], colorSpace='rgb', opacity=None,
-    flipHoriz=False, flipVert=False,
-    texRes=128.0, interpolate=True, depth=-1.0)
-key_resp_7 = keyboard.Keyboard()
+    depth=0.0);
 
 # --- Initialize components for Routine "setconfig" ---
 # Run 'Begin Experiment' code from resetStuff
@@ -1014,7 +995,7 @@ slideStim2='conditions/schedules/%s_first/%s_00/%s/instructions/Slide32.png' % (
 audioStim3='conditions/schedules/%s_first/%s_00/%s/instructions/Audio32.wav' % (expInfo['train_first'], expInfo['00_coordinate'], expInfo['starting corner'])
 
 
-startidx2 = 32
+startidx2 = 33
 loopidx2  = 1
 
 # random number such that loop does not end before it should
@@ -1025,7 +1006,7 @@ instrep2  = 999
 #endidx2   = [33] # modify where to stop 
 
 # last slide, then the loop terminates and the experiment starts
-maxSlide2 = 34 # change to 33?
+maxSlide2 = 34 
 
 # it is making as many turnovers as there are numbers in endidx -> this is baically how many times it goes back and forth between isntruction slides and the grid showing different examples
 beforeRep = len(endidx)
@@ -3078,7 +3059,9 @@ for thisBeforeExpLoop in beforeExpLoop:
         # only check when all trials are done within the round
         if nrepcount > praclen-1: #test amount(start from 0) > len(24-1)
             thisExp.addData('saveACC_pre', saveACC) 
-            ACC = (cumAcctrain/(24/100)/100) + (earlierperf*(4/24))
+            # ACC = (cumAcctrain/(24/100)/100) + (earlierperf*(4/24))
+            # ACC = (cumAcctrain/(30/100)/100) + (earlierperf*(5/30))
+            ACC = 0.9
             thisExp.addData('ACC', ACC)
             #saveACC= 25
             # for debugging, when want to have accuracy to continue
@@ -3113,6 +3096,7 @@ for thisBeforeExpLoop in beforeExpLoop:
         #        thisExp.addData('earlystop_wloop', earlystop) 
            # reset test variable
             earlierperf = earlierperf + (cumAcctrain/(24/100)/100)
+            # earlierperf = earlierperf + (cumAcctrain/(30/100)/100)
             thisExp.addData('cumAcctrain_check', cumAcctrain)
             cumAcctrain =0
         
@@ -3587,15 +3571,13 @@ for thisExperiment in experiment:
     # completed repChoice repeats of 'moveLoop_test'
     
     
-    # --- Prepare to start Routine "fixation" ---
+    # --- Prepare to start Routine "fixation_2" ---
     continueRoutine = True
     routineForceEnded = False
     # update component parameters for each repeat
-    # Run 'Begin Routine' code from code
-    fix_time = randint(1,2)
     # keep track of which components have finished
-    fixationComponents = [fixation_text]
-    for thisComponent in fixationComponents:
+    fixation_2Components = [text_3]
+    for thisComponent in fixation_2Components:
         thisComponent.tStart = None
         thisComponent.tStop = None
         thisComponent.tStartRefresh = None
@@ -3607,8 +3589,8 @@ for thisExperiment in experiment:
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
     
-    # --- Run Routine "fixation" ---
-    while continueRoutine:
+    # --- Run Routine "fixation_2" ---
+    while continueRoutine and routineTimer.getTime() < 1.0:
         # get current time
         t = routineTimer.getTime()
         tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -3616,25 +3598,25 @@ for thisExperiment in experiment:
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
         
-        # *fixation_text* updates
-        if fixation_text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # *text_3* updates
+        if text_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
-            fixation_text.frameNStart = frameN  # exact frame index
-            fixation_text.tStart = t  # local t and not account for scr refresh
-            fixation_text.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(fixation_text, 'tStartRefresh')  # time at next scr refresh
+            text_3.frameNStart = frameN  # exact frame index
+            text_3.tStart = t  # local t and not account for scr refresh
+            text_3.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(text_3, 'tStartRefresh')  # time at next scr refresh
             # add timestamp to datafile
-            thisExp.timestampOnFlip(win, 'fixation_text.started')
-            fixation_text.setAutoDraw(True)
-        if fixation_text.status == STARTED:
+            thisExp.timestampOnFlip(win, 'text_3.started')
+            text_3.setAutoDraw(True)
+        if text_3.status == STARTED:
             # is it time to stop? (based on global clock, using actual start)
-            if tThisFlipGlobal > fixation_text.tStartRefresh + fix_time-frameTolerance:
+            if tThisFlipGlobal > text_3.tStartRefresh + 1.0-frameTolerance:
                 # keep track of stop time/frame for later
-                fixation_text.tStop = t  # not accounting for scr refresh
-                fixation_text.frameNStop = frameN  # exact frame index
+                text_3.tStop = t  # not accounting for scr refresh
+                text_3.frameNStop = frameN  # exact frame index
                 # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'fixation_text.stopped')
-                fixation_text.setAutoDraw(False)
+                thisExp.timestampOnFlip(win, 'text_3.stopped')
+                text_3.setAutoDraw(False)
         
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -3645,7 +3627,7 @@ for thisExperiment in experiment:
             routineForceEnded = True
             break
         continueRoutine = False  # will revert to True if at least one component still running
-        for thisComponent in fixationComponents:
+        for thisComponent in fixation_2Components:
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
@@ -3654,142 +3636,15 @@ for thisExperiment in experiment:
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
-    # --- Ending Routine "fixation" ---
-    for thisComponent in fixationComponents:
+    # --- Ending Routine "fixation_2" ---
+    for thisComponent in fixation_2Components:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    # the Routine "fixation" was not non-slip safe, so reset the non-slip timer
-    routineTimer.reset()
-    
-    # set up handler to look after randomisation of conditions etc
-    breaks = data.TrialHandler(nReps=break_on_off, method='sequential', 
-        extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions(condition_path),
-        seed=None, name='breaks')
-    thisExp.addLoop(breaks)  # add the loop to the experiment
-    thisBreak = breaks.trialList[0]  # so we can initialise stimuli with some values
-    # abbreviate parameter names if possible (e.g. rgb = thisBreak.rgb)
-    if thisBreak != None:
-        for paramName in thisBreak:
-            exec('{} = thisBreak[paramName]'.format(paramName))
-    
-    for thisBreak in breaks:
-        currentLoop = breaks
-        # abbreviate parameter names if possible (e.g. rgb = thisBreak.rgb)
-        if thisBreak != None:
-            for paramName in thisBreak:
-                exec('{} = thisBreak[paramName]'.format(paramName))
-        
-        # --- Prepare to start Routine "break_screen" ---
-        continueRoutine = True
-        routineForceEnded = False
-        # update component parameters for each repeat
-        # Run 'Begin Routine' code from code_14
-        break_slide = 'stimuli/break.png'
-        #if break_on_off == 1:#currentTrial['break_screen'] == 1:
-        #    breaks = True
-        key_resp_7.keys = []
-        key_resp_7.rt = []
-        _key_resp_7_allKeys = []
-        # keep track of which components have finished
-        break_screenComponents = [image_break_3, key_resp_7]
-        for thisComponent in break_screenComponents:
-            thisComponent.tStart = None
-            thisComponent.tStop = None
-            thisComponent.tStartRefresh = None
-            thisComponent.tStopRefresh = None
-            if hasattr(thisComponent, 'status'):
-                thisComponent.status = NOT_STARTED
-        # reset timers
-        t = 0
-        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-        frameN = -1
-        
-        # --- Run Routine "break_screen" ---
-        while continueRoutine:
-            # get current time
-            t = routineTimer.getTime()
-            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
-            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
-            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
-            # update/draw components on each frame
-            # Run 'Each Frame' code from code_14
-            if key_resp_7.keys == "space":
-                continueRoutine = False
-                breaks.finished = True
-                break_on_off = 0
-            
-            # *image_break_3* updates
-            if image_break_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-                # keep track of start time/frame for later
-                image_break_3.frameNStart = frameN  # exact frame index
-                image_break_3.tStart = t  # local t and not account for scr refresh
-                image_break_3.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(image_break_3, 'tStartRefresh')  # time at next scr refresh
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'image_break_3.started')
-                image_break_3.setAutoDraw(True)
-            
-            # *key_resp_7* updates
-            waitOnFlip = False
-            if key_resp_7.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-                # keep track of start time/frame for later
-                key_resp_7.frameNStart = frameN  # exact frame index
-                key_resp_7.tStart = t  # local t and not account for scr refresh
-                key_resp_7.tStartRefresh = tThisFlipGlobal  # on global time
-                win.timeOnFlip(key_resp_7, 'tStartRefresh')  # time at next scr refresh
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'key_resp_7.started')
-                key_resp_7.status = STARTED
-                # keyboard checking is just starting
-                waitOnFlip = True
-                win.callOnFlip(key_resp_7.clock.reset)  # t=0 on next screen flip
-                win.callOnFlip(key_resp_7.clearEvents, eventType='keyboard')  # clear events on next screen flip
-            if key_resp_7.status == STARTED and not waitOnFlip:
-                theseKeys = key_resp_7.getKeys(keyList=['space', 'q'], waitRelease=False)
-                _key_resp_7_allKeys.extend(theseKeys)
-                if len(_key_resp_7_allKeys):
-                    key_resp_7.keys = _key_resp_7_allKeys[-1].name  # just the last key pressed
-                    key_resp_7.rt = _key_resp_7_allKeys[-1].rt
-                    # a response ends the routine
-                    continueRoutine = False
-            
-            # check for quit (typically the Esc key)
-            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
-                core.quit()
-            
-            # check if all components have finished
-            if not continueRoutine:  # a component has requested a forced-end of Routine
-                routineForceEnded = True
-                break
-            continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in break_screenComponents:
-                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
-                    continueRoutine = True
-                    break  # at least one component has not yet finished
-            
-            # refresh the screen
-            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
-                win.flip()
-        
-        # --- Ending Routine "break_screen" ---
-        for thisComponent in break_screenComponents:
-            if hasattr(thisComponent, "setAutoDraw"):
-                thisComponent.setAutoDraw(False)
-        # Run 'End Routine' code from code_14
-        #break_on_off = 0
-        # check responses
-        if key_resp_7.keys in ['', [], None]:  # No response was made
-            key_resp_7.keys = None
-        breaks.addData('key_resp_7.keys',key_resp_7.keys)
-        if key_resp_7.keys != None:  # we had a response
-            breaks.addData('key_resp_7.rt', key_resp_7.rt)
-        # the Routine "break_screen" was not non-slip safe, so reset the non-slip timer
+    # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+    if routineForceEnded:
         routineTimer.reset()
-        thisExp.nextEntry()
-        
-    # completed break_on_off repeats of 'breaks'
-    
+    else:
+        routineTimer.addTime(-1.000000)
     
     # --- Prepare to start Routine "setconfig" ---
     continueRoutine = True
@@ -3900,7 +3755,6 @@ elif showearly ==1:
     #url ="https://mpib.qualtrics.com/jfe/form/SV_6LJSuyOrMfljMG2?participant="+expInfo['participant']
     #psychoJS.setRedirectUrls(url)
      
-
 slide_stop.setImage('stimuli/Slide31.png')
 key_resp_3.keys = []
 key_resp_3.rt = []
@@ -4336,6 +4190,10 @@ total_time = end_all_time - start_all_time
 thisExp.addData('total_time',total_time)
 thisExp.addData('end_all_time', 'end_all_time')
 
+#import shutil
+#source_file = thisExp.dataFileName + '.csv'
+#target_path = 'Z:\private\children_task_data'
+#shutil.copy(source_file, target_path)
 # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
 if routineForceEnded:
     routineTimer.reset()
